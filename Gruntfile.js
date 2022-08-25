@@ -14,8 +14,7 @@ module.exports = function (grunt) {
 			dist: ['dist']
 		},
 		copy: {
-			sintaxis: { expand: true, cwd: './src', src: './sintaxis.d.ts', dest: 'build/' },
-			build: { expand: true, cwd: 'build/', src: '**', dest: 'dist/' },
+			build: { expand: true, cwd: 'build/lib/', src: '**', dest: 'dist/' },
 			readme: { expand: true, src: './README.md', dest: 'dist/' },
 			license: { expand: true, src: './LICENSE', dest: 'dist/' }
 		}
@@ -32,7 +31,7 @@ module.exports = function (grunt) {
 		fs.writeFileSync('dist/package.json', JSON.stringify(data, null, 2), 'utf8')
 	})
 
-	grunt.registerTask('build', ['clean:build', 'exec:tsc', 'copy:sintaxis'])
+	grunt.registerTask('build', ['clean:build', 'exec:tsc'])
 	grunt.registerTask('lint', ['exec:lint'])
 	grunt.registerTask('dist', ['clean:dist', 'build', 'copy:build', 'copy:readme', 'copy:license', 'create-package'])
 	grunt.registerTask('default', [])

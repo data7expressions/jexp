@@ -11,7 +11,7 @@
 			"skipFiles": [
 				"<node_internals>/**"
 			],
-			"program": "${workspaceFolder}/src/index.ts",
+			"program": "${workspaceFolder}/src/lib/index.ts",
 			"args": [
 				"test"
 			]
@@ -23,10 +23,10 @@
 			"skipFiles": [
 				"<node_internals>/**"
 			],
-			"program": "${workspaceFolder}/src/index.ts",
+			"program": "${workspaceFolder}/src/lib/index.ts",
 			"args": [
 				"_[0].name",
-                "~/develop/jexp/lab/countries.json"
+                "~/develop/jexp/src/lab/countries.json"
 			]
 		}        
     ]
