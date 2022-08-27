@@ -29,7 +29,7 @@ const run = async (query:string, source:string, options:any) => {
 		if (data === null || data === undefined) {
 			throw Error(`can not parse content of ${source}`)
 		}
-		const result = exp.eval(query, { _: data })
+		const result = exp.eval(query, { '.': data })
 		const forceJson = options.output === 'json'
 		const forceYaml = options.output === 'yaml'
 		if (forceYaml || (!forceJson && extension && ['.yaml', 'yml'].includes(extension))) {
