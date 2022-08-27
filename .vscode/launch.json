@@ -28,6 +28,15 @@
 				"_[0].name",
                 "~/develop/jexp/src/lab/countries.json"
 			]
-		}        
+		},
+		{
+			"name": "lab",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"program": "${workspaceFolder}/src/lab/lab.ts"			
+		}      
     ]
 }
