@@ -25,8 +25,53 @@
 			],
 			"program": "${workspaceFolder}/src/lib/index.ts",
 			"args": [
-				"_[0].name",
-                "~/develop/jexp/src/lab/countries.json"
+				"_[0]",
+                "~/develop/jexp/data/countries.json"
+			]
+		},
+		{
+			"name": "countries yaml",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"program": "${workspaceFolder}/src/lib/index.ts",
+			"args": [
+				"_[0]",
+                "~/develop/jexp/data/countries.json",
+				"-o",
+				"yaml"
+			]
+		},
+		{
+			"name": "countries -b",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"program": "${workspaceFolder}/src/lib/index.ts",
+			"args": [
+				"_[0]",
+                "~/develop/jexp/data/countries.json",
+				"-b",
+				"true"
+			]
+		},
+		{
+			"name": "countries -d",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"program": "${workspaceFolder}/src/lib/index.ts",
+			"args": [
+				"_[0]",
+                "~/develop/jexp/data/countries.json",
+				"-d",
+				"true"
 			]
 		},
 		{
@@ -36,7 +81,7 @@
 			"skipFiles": [
 				"<node_internals>/**"
 			],
-			"program": "${workspaceFolder}/src/lab/lab.ts"			
+			"program": "${workspaceFolder}/src/dev/lab.ts"			
 		}      
     ]
 }

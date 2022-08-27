@@ -1,15 +1,12 @@
 #!/usr/bin/env node
 import { expressions as exp, Helper } from 'js-expressions'
 import path from 'path'
+const { program, Option } = require('commander')
+const colorize = require('json-colorizer')
 const yaml = require('js-yaml')
 
-export async function run () {
+const run = async (query:string, source:string, options:any) => {
 	try {
-		if (process.argv.length !== 4) {
-			throw new Error(`Error: 2 arguments were expected and 3 came ${process.argv.length - 2}`)
-		}
-		const expression = process.argv[2]
-		const source = process.argv[3].trim()
 		let data:any = {}
 		let extension = ''
 		if ((source.startsWith('[') || source.startsWith('{'))) {
@@ -32,14 +29,35 @@ export async function run () {
 		if (data === null || data === undefined) {
 			throw Error(`can not parse content of ${source}`)
 		}
-		const result = exp.eval(expression, { _: data })
-		if (extension && ['.yaml', 'yml'].includes(extension)) {
+		const result = exp.eval(query, { _: data })
+		const forceJson = options.output === 'json'
+		const forceYaml = options.output === 'yaml'
+		if (forceYaml || (!forceJson && extension && ['.yaml', 'yml'].includes(extension))) {
 			console.log(yaml.dump(result))
 		} else {
-			console.log(JSON.stringify(result, null, 2))
+			const formatted = options.beautiful ? JSON.stringify(result, null, 2) : JSON.stringify(result)
+			if (options.decorate) {
+				console.log(colorize(formatted))
+			} else {
+				console.log(formatted)
+			}
 		}
 	} catch (error:any) {
 		console.error(error.stack)
 	}
 }
-run()
+
+async function main () {
+	program
+		.argument('<query>')
+		.argument('<source>')
+		.addOption(new Option('-o, --output <format>', 'Force output').choices(['json', 'yaml']))
+		.option('-b, --beautiful', 'Beautiful output', true)
+		.option('-d, --decorate', 'Decorate output', false)
+		.option('-q, --query-file <path>', 'query file')
+		.action(async (query:string, source:any, options:any) => {
+			await run(query, source, options)
+		})
+	await program.parseAsync(process.argv)
+}
+main()

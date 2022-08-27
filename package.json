@@ -23,12 +23,15 @@
 		"dist": "grunt dist"
 	},
 	"dependencies": {
+		"commander": "^9.4.0",
 		"js-expressions": "1.0.8",
-		"js-yaml": "^4.1.0"		
+		"js-yaml": "^4.1.0",
+		"json-colorizer": "^2.2.2"
 	},
 	"devDependencies": {
 		"@types/jest": "^27.0.1",
 		"@types/node": "^15.12.2",
+		"@types/yargs": "^17.0.8",
 		"@typescript-eslint/eslint-plugin": "^4.31.1",
 		"@typescript-eslint/parser": "^4.31.1",
 		"eslint": "^7.32.0",
@@ -43,7 +46,6 @@
 		"grunt-contrib-uglify": "^5.0.1",
 		"grunt-exec": "^3.0.0",
 		"load-grunt-tasks": "^5.1.0",
-		"@types/yargs": "^17.0.8",
 		"ts-node": "^10.0.0",
 		"typedoc": "^0.22.11",
 		"typedoc-plugin-markdown": "3.11.14",
