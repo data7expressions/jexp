@@ -1,15 +1,12 @@
 #!/usr/bin/env node
 import { expressions as exp, Helper } from 'js-expressions'
 import path from 'path'
+const { program, Option } = require('commander')
+const colorize = require('json-colorizer')
 const yaml = require('js-yaml')
 
-export async function run () {
+const run = async (expression:string, source:string, options:any) => {
 	try {
-		if (process.argv.length !== 4) {
-			throw new Error(`Error: 2 arguments were expected and 3 came ${process.argv.length - 2}`)
-		}
-		const expression = process.argv[2]
-		const source = process.argv[3].trim()
 		let data:any = {}
 		let extension = ''
 		if ((source.startsWith('[') || source.startsWith('{'))) {
@@ -32,14 +29,52 @@ export async function run () {
 		if (data === null || data === undefined) {
 			throw Error(`can not parse content of ${source}`)
 		}
-		const result = exp.eval(expression, { _: data })
-		if (extension && ['.yaml', 'yml'].includes(extension)) {
+		const result = exp.eval(expression, { '.': data })
+		const forceJson = options.output === 'json'
+		const forceYaml = options.output === 'yaml'
+		if (forceYaml || (!forceJson && extension && ['.yaml', 'yml'].includes(extension))) {
 			console.log(yaml.dump(result))
 		} else {
-			console.log(JSON.stringify(result, null, 2))
+			const formatted = options.beautiful ? JSON.stringify(result, null, 2) : JSON.stringify(result)
+			if (options.decorate) {
+				console.log(colorize(formatted))
+			} else {
+				console.log(formatted)
+			}
 		}
 	} catch (error:any) {
 		console.error(error.stack)
 	}
 }
-run()
+
+const getInput = async () => {
+	// https://wellingguzman.com/notes/node-pipe-input
+	return new Promise(function (resolve, reject) {
+		const stdin = process.stdin
+		let data = ''
+		stdin.setEncoding('utf8')
+		stdin.on('data', function (chunk) {
+			data += chunk
+		})
+		stdin.on('end', function () {
+			resolve(data)
+		})
+		stdin.on('error', reject)
+	})
+}
+
+async function main () {
+	program
+		.argument('<expression>')
+		.argument('[source]')
+		.addOption(new Option('-o, --output <format>', 'Force output').choices(['json', 'yaml']))
+		.option('-b, --beautiful', 'Beautiful output', false)
+		.option('-d, --decorate', 'Decorate output', false)
+		.option('-q, --query-file <path>', 'query file')
+		.action(async (expression:string, source:any, options:any) => {
+			const data = (source !== undefined) ? source : await getInput() as any
+			await run(expression, data, options)
+		})
+	await program.parseAsync(process.argv)
+}
+main()

@@ -3,8 +3,7 @@
       "number": "20001",
       "customer": {
         "firstName": "John",
-        "lastName": "Murphy",
-        "nro": "0001"
+        "lastName": "Murphy"
       },
       "orderTime": "2022-07-30T10:15:54",
       "total": 12.19,
@@ -30,8 +29,7 @@
       "number": "20002",
       "customer": {
         "firstName": "Paul",
-        "lastName": "Smith",
-        "nro": "0001"
+        "lastName": "Smith"
       },
       "orderTime": "2022-07-30T12:12:43",
       "total": 7.91,
