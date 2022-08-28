@@ -55,8 +55,7 @@
 			"args": [
 				".[0]",
                 "~/develop/jexp/data/countries.json",
-				"-b",
-				"true"
+				"-b"
 			]
 		},
 		{
@@ -70,8 +69,7 @@
 			"args": [
 				".[0]",
                 "~/develop/jexp/data/countries.json",
-				"-d",
-				"true"
+				"-d"
 			]
 		},
 		{

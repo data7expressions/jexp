@@ -5,7 +5,7 @@ const { program, Option } = require('commander')
 const colorize = require('json-colorizer')
 const yaml = require('js-yaml')
 
-const run = async (query:string, source:string, options:any) => {
+const run = async (expression:string, source:string, options:any) => {
 	try {
 		let data:any = {}
 		let extension = ''
@@ -29,7 +29,7 @@ const run = async (query:string, source:string, options:any) => {
 		if (data === null || data === undefined) {
 			throw Error(`can not parse content of ${source}`)
 		}
-		const result = exp.eval(query, { '.': data })
+		const result = exp.eval(expression, { '.': data })
 		const forceJson = options.output === 'json'
 		const forceYaml = options.output === 'yaml'
 		if (forceYaml || (!forceJson && extension && ['.yaml', 'yml'].includes(extension))) {
@@ -47,16 +47,33 @@ const run = async (query:string, source:string, options:any) => {
 	}
 }
 
+const getInput = async () => {
+	// https://wellingguzman.com/notes/node-pipe-input
+	return new Promise(function (resolve, reject) {
+		const stdin = process.stdin
+		let data = ''
+		stdin.setEncoding('utf8')
+		stdin.on('data', function (chunk) {
+			data += chunk
+		})
+		stdin.on('end', function () {
+			resolve(data)
+		})
+		stdin.on('error', reject)
+	})
+}
+
 async function main () {
 	program
-		.argument('<query>')
-		.argument('<source>')
+		.argument('<expression>')
+		.argument('[source]')
 		.addOption(new Option('-o, --output <format>', 'Force output').choices(['json', 'yaml']))
-		.option('-b, --beautiful', 'Beautiful output', true)
+		.option('-b, --beautiful', 'Beautiful output', false)
 		.option('-d, --decorate', 'Decorate output', false)
 		.option('-q, --query-file <path>', 'query file')
-		.action(async (query:string, source:any, options:any) => {
-			await run(query, source, options)
+		.action(async (expression:string, source:any, options:any) => {
+			const data = (source !== undefined) ? source : await getInput() as any
+			await run(expression, data, options)
 		})
 	await program.parseAsync(process.argv)
 }

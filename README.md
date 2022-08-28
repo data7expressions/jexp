@@ -1,7 +1,381 @@
 # JEXP
 
-Parser and evaluator of expressions by line of commands. The expressions correspond to the package js-expressions
+Command line application that allows parser and evaluator of json/yaml applying expressions.
+
+## Features
+
+- Functions and arrow functions
+- Constants, enums, variables, objects and arrays
+- Arithmetic, assignment, comparison, Logical and bitwise operators
+- Environment variables
+
+## Global installation
+
+it is necessary to install the package globally to be able to access the command line applications.
+
+```sh
+npm install jexp -g
+```
+
+## Usage
+
+```sh
+jexp <expression> <source> [options]
+```
+
+### Expression
+
+The expressions correspond to the package [js-expressions](https://www.npmjs.com/package/js-expressions)
+
+expression that is applied to the data source  
+
+the root of the data is accessed from **dot**
+
+```sh
+jexp '.' ./data/orders.json
+```
+
+From the **dot** we write the expressions
+
+```sh
+jexp '.details.article' ./data/orders.json
+```
+
+```sh
+jexp '.details.first(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json
+```
+
+### Source
+
+Get data source from json file
+
+```sh
+jexp '.[0].details' ./data/orders.json
+```
+
+Get data source from yaml file
+
+```sh
+jexp '.min(p=> p.total)' ./data/orders.yaml
+```
+
+Get data source from json stringify
+
+```sh
+jexp 'concatenate(capitalize(.fruit.name)," ",.fruit.color)' '{"fruit":{"name":"apple","color":"green","price":1.20}}'
+```
+
+Get data source from pipeline command
 
 ```sh
 curl -s https://raw.githubusercontent.com/FlavioLionelRita/jexp/main/data/orders.json | jexp '.number'
 ```
+
+### Options
+
+| Option            | Abbreviation | Description    | Options   |
+|-------------------|--------------|----------------|-----------|
+|--output <format>  |-o            |Force output    | json, yaml|
+|--beautiful        |-b            |Beautiful output|           |
+|--decorate         |-d            |Decorate output |           |
+
+## Examples
+
+file orders.js
+
+```json
+[
+ {
+  "number": "20001",
+  "customer": {"firstName":"John", "lastName":"Murphy"},
+  "orderTime": "2022-07-30T10:15:54",
+  "total": 12.19,
+  "details": [
+    {"article":"Potato", "unitPrice":1.54,"qty":5},
+    {"article":"Onion", "unitPrice":1.23, "qty":2},
+    {"article":"White grape", "unitPrice":2.03, "qty":1}
+  ]
+ },
+ {
+  "number": "20002",
+  "customer": {"firstName":"Paul", "lastName":"Smith"},
+  "orderTime": "2022-07-30T12:12:43",
+  "total": 7.91,
+  "details": [
+    {"article":"Apple", "unitPrice":2.15, "qty":1},
+    {"article":"Banana", "unitPrice":1.99, "qty":2},
+    {"article":"Pear", "unitPrice":1.78, "qty":1}
+  ]
+ }
+]
+```
+
+Return the entire content of the file
+
+```sh
+jexp '.' ./data/orders.json
+```
+
+Result:
+
+```json
+[{"number":"20001","customer":{"firstName":"John","lastName":"Murphy"},"orderTime":"2022-07-30T10:15:54","total":12.19,"details":[{"article":"Potato","unitPrice":1.54,"qty":5},{"article":"Onion","unitPrice":1.23,"qty":2},{"article":"White grape","unitPrice":2.03,"qty":1}]},{"number":"20002","customer":{"firstName":"Paul","lastName":"Smith"},"orderTime":"2022-07-30T12:12:43","total":7.91,"details":[{"article":"Apple","unitPrice":2.15,"qty":1},{"article":"Banana","unitPrice":1.99,"qty":2},{"article":"Pear","unitPrice":1.78,"qty":1}]}]
+```
+
+Returns the number property of the list
+
+```sh
+jexp '.number' ./data/orders.json
+```
+
+Result:
+
+```json
+["20001","20002"]
+```
+
+Concatenates two properties and capitalizes the first one
+
+```sh
+jexp 'concatenate(capitalize(.fruit.name)," ",.fruit.color)' '{"fruit":{"name":"apple","color":"green","price":1.20}}'
+```
+
+Result:
+
+```json
+"Apple green"
+```
+
+Returns the first element of an array from the index in yaml format
+
+```sh
+jexp '.[0]' ./data/orders.json -o yaml
+```
+
+Result:
+
+```yaml
+number: '20001'
+customer:
+  firstName: John
+  lastName: Murphy
+orderTime: '2022-07-30T10:15:54'
+total: 12.19
+details:
+  - article: Potato
+    unitPrice: 1.54
+    qty: 5
+  - article: Onion
+    unitPrice: 1.23
+    qty: 2
+  - article: White grape
+    unitPrice: 2.03
+    qty: 1
+```
+
+Returns the details property of the first element in beautiful format
+
+```sh
+jexp '.[0].details' ./data/orders.json -b
+```
+
+Result:
+
+```json
+[
+  {
+    "article": "Potato",
+    "unitPrice": 1.54,
+    "qty": 5
+  },
+  {
+    "article": "Onion",
+    "unitPrice": 1.23,
+    "qty": 2
+  },
+  {
+    "article": "White grape",
+    "unitPrice": 2.03,
+    "qty": 1
+  }
+]
+```
+
+Returns the details property of the listing
+
+```sh
+jexp '.details' ./data/orders.json
+```
+
+Result:
+
+```json
+[{"article":"Potato","unitPrice":1.54,"qty":5},{"article":"Onion","unitPrice":1.23,"qty":2},{"article":"White grape","unitPrice":2.03,"qty":1},{"article":"Apple","unitPrice":2.15,"qty":1},{"article":"Banana","unitPrice":1.99,"qty":2},{"article":"Pear","unitPrice":1.78,"qty":1}]
+```
+
+Returns the article property of the list of details of each element of the list
+
+```sh
+jexp '.details.article' ./data/orders.json
+```
+
+Result:
+
+```json
+["Potato","Onion","White grape","Apple","Banana","Pear"]
+```
+
+Get the minimum of the total property
+
+```sh
+jexp '.min(p=> p.total)' ./data/orders.json
+```
+
+Result:
+
+```json
+7.91
+```
+
+Get the minimum of the article property from all the details
+
+```sh
+jexp '.details.min(p=> p.article )' ./data/orders.json
+```
+
+Result:
+
+```json
+"Apple"
+```
+
+Get the maximum "unitPrice * p.qty" from all the details
+
+```sh
+jexp '.details.max(p=> p.unitPrice * p.qty )' ./data/orders.json
+```
+
+Result:
+
+```json
+7.7
+```
+
+Get the middle value "unitPrice * p.qty" from all the details
+
+```sh
+jexp '.details.avg(p=> p.unitPrice * p.qty )' ./data/orders.json
+```
+
+Result:
+
+```json
+3.35
+```
+
+Gets the sum of the total property
+
+```sh
+jexp '.sum(p=> p.total )' ./data/orders.json
+```
+
+Result:
+
+```json
+20.1
+```
+
+Get the sum "unitPrice * p.qty" of the details of item 1 of the list
+
+```sh
+jexp '.[1].details.sum(p=> p.unitPrice * p.qty )' ./data/orders.json
+```
+
+Result:
+
+```json
+7.91
+```
+
+Get the number of details where "unitPrice * p.qty " is less than 3
+
+```sh
+jexp '.details.count(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json
+```
+
+Result:
+
+```json
+4
+```
+
+Get the first article property of all details where "unitPrice * p.qty" is less than 3
+
+```sh
+jexp '.details.first(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
+```
+
+Result:
+
+```json
+"Onion"
+```
+
+Get the last article property of all details where "unitPrice * p.qty" is less than 3
+
+```sh
+jexp '.details.last(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
+```
+
+Result:
+
+```json
+"Pear"
+```
+
+Get the first detail where "unitPrice * p.qty" is less than 3 in beautiful format
+
+```sh
+jexp '.details.first(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json -b
+```
+
+Result:
+
+```json
+{
+  "article": "Onion",
+  "unitPrice": 1.23,
+  "qty": 2
+}
+```
+
+Get the sum "unitPrice * p.qty" of the details of item 1 of the list using pipeline
+
+```sh
+curl -s https://raw.githubusercontent.com/FlavioLionelRita/jexp/main/data/orders.json | jexp '.details.sum(p=> p.unitPrice * p.qty )'
+```
+
+Result:
+
+```json
+20.1
+```
+
+## js-expression
+
+[Js-expression](https://www.npmjs.com/package/js-expressions) is an extensible expression evaluator and parser. \
+Besides the operators, functions, variables, objects and arrays that are supported
+
+### Documentation
+
+- [Array](https://github.com/FlavioLionelRita/js-expressions/wiki/Array)
+- [Assignment](https://github.com/FlavioLionelRita/js-expressions/wiki/Assignment)
+- [Bitwise](https://github.com/FlavioLionelRita/js-expressions/wiki/Bitwise)
+- [Comparison](https://github.com/FlavioLionelRita/js-expressions/wiki/Comparison)
+- [Control flows](https://github.com/FlavioLionelRita/js-expressions/wiki/Flows)
+- [Datetime](https://github.com/FlavioLionelRita/js-expressions/wiki/Datetime)
+- [Extend](https://github.com/FlavioLionelRita/js-expressions/wiki/Extend)
+- [Logical](https://github.com/FlavioLionelRita/js-expressions/wiki/Logical)
+- [Nullable](https://github.com/FlavioLionelRita/js-expressions/wiki/Nullable)
+- [Numeric](https://github.com/FlavioLionelRita/js-expressions/wiki/Numeric)
+- [String](https://github.com/FlavioLionelRita/js-expressions/wiki/String)
