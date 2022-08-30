@@ -79,7 +79,6 @@ curl -s https://raw.githubusercontent.com/FlavioLionelRita/jexp/main/data/orders
 |-------------------|--------------|----------------|-----------|
 |--output <format>  |-o            |Force output    | json, yaml|
 |--beautiful        |-b            |Beautiful output|           |
-|--decorate         |-d            |Decorate output |           |
 
 ## Examples
 
