@@ -6,44 +6,40 @@ const colorize = require('json-colorizer')
 const yaml = require('js-yaml')
 
 const run = async (expression:string, source:string, options:any) => {
-	try {
-		let data:any = {}
-		let extension = ''
-		if ((source.startsWith('[') || source.startsWith('{'))) {
-			data = Helper.tryParse(source)
+	let data:any = {}
+	let extension = ''
+	if ((source.startsWith('[') || source.startsWith('{'))) {
+		data = Helper.tryParse(source)
+	} else {
+		extension = path.extname(source)
+		if (!['.json', '.yaml', 'yml'].includes(extension)) {
+			throw Error(`extension ${extension} not supported `)
+		}
+		const content = await Helper.readFile(source)
+		if (!content) {
+			throw Error(`can not read file ${source}`)
+		}
+		if (extension === 'json') {
+			data = Helper.tryParse(content)
 		} else {
-			extension = path.extname(source)
-			if (!['.json', '.yaml', 'yml'].includes(extension)) {
-				throw Error(`extension ${extension} not supported `)
-			}
-			const content = await Helper.readFile(source)
-			if (!content) {
-				throw Error(`can not read file ${source}`)
-			}
-			if (extension === 'json') {
-				data = Helper.tryParse(content)
-			} else {
-				data = yaml.load(content)
-			}
+			data = yaml.load(content)
 		}
-		if (data === null || data === undefined) {
-			throw Error(`can not parse content of ${source}`)
-		}
-		const result = exp.eval(expression, { '.': data })
-		const forceJson = options.output === 'json'
-		const forceYaml = options.output === 'yaml'
-		if (forceYaml || (!forceJson && extension && ['.yaml', 'yml'].includes(extension))) {
-			console.log(yaml.dump(result))
+	}
+	if (data === null || data === undefined) {
+		throw Error(`can not parse content of ${source}`)
+	}
+	const result = exp.eval(expression, { '.': data })
+	const forceJson = options.output === 'json'
+	const forceYaml = options.output === 'yaml'
+	if (forceYaml || (!forceJson && extension && ['.yaml', 'yml'].includes(extension))) {
+		console.log(yaml.dump(result))
+	} else {
+		const formatted = options.beautiful ? JSON.stringify(result, null, 2) : JSON.stringify(result)
+		if (options.decorate) {
+			console.log(colorize(formatted))
 		} else {
-			const formatted = options.beautiful ? JSON.stringify(result, null, 2) : JSON.stringify(result)
-			if (options.decorate) {
-				console.log(colorize(formatted))
-			} else {
-				console.log(formatted)
-			}
+			console.log(formatted)
 		}
-	} catch (error:any) {
-		console.error(error.stack)
 	}
 }
 
@@ -72,8 +68,12 @@ async function main () {
 		.option('-d, --decorate', 'Decorate output', false)
 		.option('-q, --query-file <path>', 'query file')
 		.action(async (expression:string, source:any, options:any) => {
-			const data = (source !== undefined) ? source : await getInput() as any
-			await run(expression, data, options)
+			try {
+				const data = (source !== undefined) ? source : await getInput() as any
+				await run(expression, data, options)
+			} catch (error:any) {
+				console.error(error.message)
+			}
 		})
 	await program.parseAsync(process.argv)
 }

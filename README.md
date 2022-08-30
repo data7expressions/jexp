@@ -4,10 +4,12 @@ Command line application that allows parser and evaluator of json/yaml applying 
 
 ## Features
 
-- Functions and arrow functions
 - Constants, enums, variables, objects and arrays
 - Arithmetic, assignment, comparison, Logical and bitwise operators
+- Functions and arrow functions
+- distinct and group by
 - Environment variables
+- json and yaml
 
 ## Global installation
 
@@ -85,28 +87,26 @@ file orders.js
 
 ```json
 [
- {
-  "number": "20001",
-  "customer": {"firstName":"John", "lastName":"Murphy"},
-  "orderTime": "2022-07-30T10:15:54",
-  "total": 12.19,
-  "details": [
-    {"article":"Potato", "unitPrice":1.54,"qty":5},
-    {"article":"Onion", "unitPrice":1.23, "qty":2},
-    {"article":"White grape", "unitPrice":2.03, "qty":1}
-  ]
- },
- {
-  "number": "20002",
-  "customer": {"firstName":"Paul", "lastName":"Smith"},
-  "orderTime": "2022-07-30T12:12:43",
-  "total": 7.91,
-  "details": [
-    {"article":"Apple", "unitPrice":2.15, "qty":1},
-    {"article":"Banana", "unitPrice":1.99, "qty":2},
-    {"article":"Pear", "unitPrice":1.78, "qty":1}
-  ]
- }
+  {
+    "number": "20001",
+    "customer": { "firstName": "John", "lastName": "Murphy" },
+    "orderTime": "2022-07-30T10:15:54",
+    "details": [
+      { "article": "Pear", "unitPrice": 1.78, "qty": 2 },
+      { "article": "Banana", "unitPrice": 1.99, "qty": 1 },
+      { "article": "White grape", "unitPrice": 2.03, "qty": 1 }
+    ]
+  },
+  {
+    "number": "20002",
+    "customer": { "firstName": "Paul", "lastName": "Smith"  },
+    "orderTime": "2022-07-30T12:12:43",
+    "details": [
+      { "article": "Apple", "unitPrice": 2.15, "qty": 1 },
+      { "article": "Banana", "unitPrice": 1.99, "qty": 2 },
+      { "article": "Pear", "unitPrice": 1.78, "qty": 1 }
+    ]
+  }
 ]
 ```
 
@@ -119,7 +119,7 @@ jexp '.' ./data/orders.json
 Result:
 
 ```json
-[{"number":"20001","customer":{"firstName":"John","lastName":"Murphy"},"orderTime":"2022-07-30T10:15:54","total":12.19,"details":[{"article":"Potato","unitPrice":1.54,"qty":5},{"article":"Onion","unitPrice":1.23,"qty":2},{"article":"White grape","unitPrice":2.03,"qty":1}]},{"number":"20002","customer":{"firstName":"Paul","lastName":"Smith"},"orderTime":"2022-07-30T12:12:43","total":7.91,"details":[{"article":"Apple","unitPrice":2.15,"qty":1},{"article":"Banana","unitPrice":1.99,"qty":2},{"article":"Pear","unitPrice":1.78,"qty":1}]}]
+[{"number":"20001","customer":{"firstName":"John","lastName":"Murphy"},"orderTime":"2022-07-30T10:15:54","details":[{"article":"Pear","unitPrice":1.78,"qty":2},{"article":"Banana","unitPrice":1.99,"qty":1},{"article":"White grape","unitPrice":2.03,"qty":1}]},{"number":"20002","customer":{"firstName":"Paul","lastName":"Smith"},"orderTime":"2022-07-30T12:12:43","details":[{"article":"Apple","unitPrice":2.15,"qty":1},{"article":"Banana","unitPrice":1.99,"qty":2},{"article":"Pear","unitPrice":1.78,"qty":1}]}]
 ```
 
 Returns the number property of the list
@@ -154,23 +154,23 @@ jexp '.[0]' ./data/orders.json -o yaml
 
 Result:
 
-```yaml
+```json
 number: '20001'
 customer:
   firstName: John
   lastName: Murphy
 orderTime: '2022-07-30T10:15:54'
-total: 12.19
 details:
-  - article: Potato
-    unitPrice: 1.54
-    qty: 5
-  - article: Onion
-    unitPrice: 1.23
+  - article: Pear
+    unitPrice: 1.78
     qty: 2
+  - article: Banana
+    unitPrice: 1.99
+    qty: 1
   - article: White grape
     unitPrice: 2.03
     qty: 1
+
 ```
 
 Returns the details property of the first element in beautiful format
@@ -184,14 +184,14 @@ Result:
 ```json
 [
   {
-    "article": "Potato",
-    "unitPrice": 1.54,
-    "qty": 5
+    "article": "Pear",
+    "unitPrice": 1.78,
+    "qty": 2
   },
   {
-    "article": "Onion",
-    "unitPrice": 1.23,
-    "qty": 2
+    "article": "Banana",
+    "unitPrice": 1.99,
+    "qty": 1
   },
   {
     "article": "White grape",
@@ -210,7 +210,7 @@ jexp '.details' ./data/orders.json
 Result:
 
 ```json
-[{"article":"Potato","unitPrice":1.54,"qty":5},{"article":"Onion","unitPrice":1.23,"qty":2},{"article":"White grape","unitPrice":2.03,"qty":1},{"article":"Apple","unitPrice":2.15,"qty":1},{"article":"Banana","unitPrice":1.99,"qty":2},{"article":"Pear","unitPrice":1.78,"qty":1}]
+[{"article":"Pear","unitPrice":1.78,"qty":2},{"article":"Banana","unitPrice":1.99,"qty":1},{"article":"White grape","unitPrice":2.03,"qty":1},{"article":"Apple","unitPrice":2.15,"qty":1},{"article":"Banana","unitPrice":1.99,"qty":2},{"article":"Pear","unitPrice":1.78,"qty":1}]
 ```
 
 Returns the article property of the list of details of each element of the list
@@ -222,7 +222,7 @@ jexp '.details.article' ./data/orders.json
 Result:
 
 ```json
-["Potato","Onion","White grape","Apple","Banana","Pear"]
+["Pear","Banana","White grape","Apple","Banana","Pear"]
 ```
 
 Get the minimum of the total property
@@ -234,7 +234,7 @@ jexp '.min(p=> p.total)' ./data/orders.json
 Result:
 
 ```json
-7.91
+null
 ```
 
 Get the minimum of the article property from all the details
@@ -258,7 +258,7 @@ jexp '.details.max(p=> p.unitPrice * p.qty )' ./data/orders.json
 Result:
 
 ```json
-7.7
+3.98
 ```
 
 Get the middle value "unitPrice * p.qty" from all the details
@@ -270,7 +270,7 @@ jexp '.details.avg(p=> p.unitPrice * p.qty )' ./data/orders.json
 Result:
 
 ```json
-3.35
+2.5816666666666666
 ```
 
 Gets the sum of the total property
@@ -282,7 +282,7 @@ jexp '.sum(p=> p.total )' ./data/orders.json
 Result:
 
 ```json
-20.1
+0
 ```
 
 Get the sum "unitPrice * p.qty" of the details of item 1 of the list
@@ -318,7 +318,7 @@ jexp '.details.first(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
 Result:
 
 ```json
-"Onion"
+"Banana"
 ```
 
 Get the last article property of all details where "unitPrice * p.qty" is less than 3
@@ -343,9 +343,9 @@ Result:
 
 ```json
 {
-  "article": "Onion",
-  "unitPrice": 1.23,
-  "qty": 2
+  "article": "Banana",
+  "unitPrice": 1.99,
+  "qty": 1
 }
 ```
 
@@ -359,6 +359,208 @@ Result:
 
 ```json
 20.1
+```
+
+Get the smallest article
+
+```sh
+jexp '.details.min(p=> p.article )' ./data/orders.json
+```
+
+Result:
+
+```json
+"Apple"
+```
+
+Get the total of all the details
+
+```sh
+jexp '.details.max(p=> p.unitPrice * p.qty )' ./data/orders.json
+```
+
+Result:
+
+```json
+3.98
+```
+
+Get the mean value of all details
+
+```sh
+jexp '.details.avg(p=> p.unitPrice * p.qty )' ./data/orders.json
+```
+
+Result:
+
+```json
+2.5816666666666666
+```
+
+Get the total of the details of order 1
+
+```sh
+jexp '[1].details.sum(p=> p.unitPrice * p.qty )' ./data/orders.json
+```
+
+Result:
+
+```json
+0
+```
+
+Gets the number of details where the subtotal is less than 3
+
+```sh
+jexp '.details.count(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json
+```
+
+Result:
+
+```json
+4
+```
+
+Get the article of the first detail where the subtotal is less than 3
+
+```sh
+jexp '.details.first(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
+```
+
+Result:
+
+```json
+"Banana"
+```
+
+Get the article of the last detail where the subtotal is less than 3
+
+```sh
+jexp '.details.last(p=> p.unitPrice * p.qty < 3 ).article
+```
+
+Result:
+
+```json
+/bin/sh: 1: Syntax error: Unterminated quoted string
+```
+
+Get the first detail where the subtotal is less than 3
+
+```sh
+jexp '.details.first(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json
+```
+
+Result:
+
+```json
+{"article":"Banana","unitPrice":1.99,"qty":1}
+```
+
+Calculate the total for each order
+
+```sh
+jexp '.each(p=>p.total=p.details.sum(q=>q.qty*q.unitPrice)).map(p=>{nro:p.number,total:p.total})' ./data/orders.json
+```
+
+Result:
+
+```json
+[{"nro":"20001","total":7.58},{"nro":"20002","total":7.91}]
+```
+
+Calculate the subtotal for each order
+
+```sh
+jexp '.details.foreach(p=>p.subtotal=p.qty*p.unitPrice).subtotal' ./data/orders.json
+```
+
+Result:
+
+```json
+[3.56,1.99,2.03,2.15,3.98,1.78]
+```
+
+calculates the total of all the details
+
+```sh
+jexp '.details.foreach(p=>total=nvl(total,0)+p.qty*p.unitPrice);total' ./data/orders.json
+```
+
+Result:
+
+```json
+15.49
+```
+
+Get the list of items without repeating
+
+```sh
+jexp '.details.distinct(p=>p.article)' ./data/orders.json
+```
+
+Result:
+
+```json
+["Pear","Banana","White grape","Apple"]
+```
+
+Get the list of items and quantity without repeating
+
+```sh
+jexp '.details.distinct(p=>{article:p.article,qty:p.qty})' ./data/orders.json
+```
+
+Result:
+
+```json
+[{"article":"Pear","qty":2},{"article":"Banana","qty":1},{"article":"White grape","qty":1},{"article":"Apple","qty":1},{"article":"Banana","qty":2},{"article":"Pear","qty":1}]
+```
+
+```sh
+jexp '.details.map(p=>{article:p.article,count:count(1),total:sum(p.qty * p.unitPrice)})' ./data/orders.json
+```
+
+Result:
+
+```json
+[{"article":"Pear","count":2,"total":5.34},{"article":"Banana","count":2,"total":5.97},{"article":"White grape","count":1,"total":2.03},{"article":"Apple","count":1,"total":2.15}]
+```
+
+Get the total of the first order
+
+```sh
+jexp '{total:.[0].details.sum(p=>p.qty * p.unitPrice)}' ./data/orders.json
+```
+
+Result:
+
+```json
+{"total":7.58}
+```
+
+Get the total of the last order
+
+```sh
+jexp '{total:.[.length()-1].details.sum(p=>p.qty * p.unitPrice)}' ./data/orders.json
+```
+
+Result:
+
+```json
+{"total":7.91}
+```
+
+List the orders with their totals
+
+```sh
+jexp '.map(p=>{nro:p.number,total:p.details.sum(q=>q.qty * q.unitPrice)})' ./data/orders.json
+```
+
+Result:
+
+```json
+[{"nro":"20001","total":7.58},{"nro":"20002","total":7.91}]
 ```
 
 ## js-expression
