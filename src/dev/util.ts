@@ -34,13 +34,13 @@ export async function show (list:any[]) {
 			expect = expect.substring(0, expect.length - 2)
 			examples.push(
 `
-${item.desc}
+**${item.desc}**:
 
 \`\`\`sh
 ${item.cmd}
 \`\`\`
 
-Result:
+*Result*:
 
 \`\`\`json
 ${expect}
