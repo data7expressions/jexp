@@ -1,6 +1,6 @@
 {
 	"name": "jexp",
-	"version": "0.0.12",
+	"version": "0.1.1",
 	"description": "Parser and evaluator of expressions by line of commands. The expressions correspond to the package js-expressions",
 	"author": "Flavio Lionel Rita <flaviolrita@hotmail.com>",
 	"license": "Apache-2.0 License",
@@ -24,7 +24,7 @@
 	},
 	"dependencies": {
 		"commander": "^9.4.0",
-		"js-expressions": "1.0.10",
+		"js-expressions": "1.0.11",
 		"js-yaml": "^4.1.0",
 		"json-colorizer": "^2.2.2"
 	},

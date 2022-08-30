@@ -1,11 +1,11 @@
 /* eslint-disable indent */
 import { Helper } from 'js-expressions'
 
-export async function show (list:string[]) {
+export async function show (list:any[]) {
 	const examples = []
-	for (const command of list) {
+	for (const item of list) {
 		try {
-			const result = await Helper.exec(command)
+			const result = await Helper.exec(item.cmd)
 			let expect:any
 			if (typeof result === 'string') {
 				expect = `'${result}'`
@@ -33,18 +33,20 @@ export async function show (list:string[]) {
 			expect = expect.substring(1)
 			expect = expect.substring(0, expect.length - 2)
 			examples.push(
-`\`\`\`sh
-${command}
+`
+${item.desc}
+
+\`\`\`sh
+${item.cmd}
 \`\`\`
 
 Result:
 
 \`\`\`json
 ${expect}
-\`\`\`
-`)
+\`\`\``)
 		} catch (error) {
-			console.log(`command: ${command} error: ${error}`)
+			console.log(`command: ${item.cmd} error: ${error}`)
 		}
 	}
 	console.log(examples.join('\n'))

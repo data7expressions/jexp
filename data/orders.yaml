@@ -3,14 +3,13 @@
     firstName: John
     lastName: Murphy
   orderTime: '2022-07-30T10:15:54'
-  total: 12.19
   details:
-    - article: Potato
-      unitPrice: 1.54
-      qty: 5
-    - article: Onion
-      unitPrice: 1.23
+    - article: Pear
+      unitPrice: 1.78
       qty: 2
+    - article: Banana
+      unitPrice: 1.99
+      qty: 1
     - article: White grape
       unitPrice: 2.03
       qty: 1
@@ -19,7 +18,6 @@
     firstName: Paul
     lastName: Smith
   orderTime: '2022-07-30T12:12:43'
-  total: 7.91
   details:
     - article: Apple
       unitPrice: 2.15
@@ -30,4 +28,3 @@
     - article: Pear
       unitPrice: 1.78
       qty: 1
-
