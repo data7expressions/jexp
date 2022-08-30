@@ -2,7 +2,6 @@
 import { expressions as exp, Helper } from 'js-expressions'
 import path from 'path'
 const { program, Option } = require('commander')
-const colorize = require('json-colorizer')
 const yaml = require('js-yaml')
 
 const run = async (expression:string, source:string, options:any) => {
@@ -35,11 +34,7 @@ const run = async (expression:string, source:string, options:any) => {
 		console.log(yaml.dump(result))
 	} else {
 		const formatted = options.beautiful ? JSON.stringify(result, null, 2) : JSON.stringify(result)
-		if (options.decorate) {
-			console.log(colorize(formatted))
-		} else {
-			console.log(formatted)
-		}
+		console.log(formatted)
 	}
 }
 
@@ -65,7 +60,6 @@ async function main () {
 		.argument('[source]')
 		.addOption(new Option('-o, --output <format>', 'Force output').choices(['json', 'yaml']))
 		.option('-b, --beautiful', 'Beautiful output', false)
-		.option('-d, --decorate', 'Decorate output', false)
 		.option('-q, --query-file <path>', 'query file')
 		.action(async (expression:string, source:any, options:any) => {
 			try {
