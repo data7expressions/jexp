@@ -4,10 +4,12 @@ Command line application that allows parser and evaluator of json/yaml applying 
 
 ## Features
 
-- Functions and arrow functions
 - Constants, enums, variables, objects and arrays
 - Arithmetic, assignment, comparison, Logical and bitwise operators
+- Functions and arrow functions
+- distinct and group by
 - Environment variables
+- json and yaml
 
 ## Global installation
 
@@ -514,8 +516,6 @@ Result:
 ```json
 [{"article":"Pear","qty":2},{"article":"Banana","qty":1},{"article":"White grape","qty":1},{"article":"Apple","qty":1},{"article":"Banana","qty":2},{"article":"Pear","qty":1}]
 ```
-
-
 
 ```sh
 jexp '.details.map(p=>{article:p.article,count:count(1),total:sum(p.qty * p.unitPrice)})' ./data/orders.json
