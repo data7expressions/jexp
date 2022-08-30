@@ -154,7 +154,7 @@ jexp '.[0]' ./data/orders.json -o yaml
 
 Result:
 
-```json
+```yaml
 number: '20001'
 customer:
   firstName: John
