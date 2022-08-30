@@ -358,7 +358,7 @@ curl -s https://raw.githubusercontent.com/FlavioLionelRita/jexp/main/data/orders
 Result:
 
 ```json
-20.1
+15.49
 ```
 
 Get the smallest article
@@ -400,13 +400,13 @@ Result:
 Get the total of the details of order 1
 
 ```sh
-jexp '[1].details.sum(p=> p.unitPrice * p.qty )' ./data/orders.json
+jexp '.[1].details.sum(p=> p.unitPrice * p.qty )' ./data/orders.json
 ```
 
 Result:
 
 ```json
-0
+7.91
 ```
 
 Gets the number of details where the subtotal is less than 3
@@ -436,13 +436,13 @@ Result:
 Get the article of the last detail where the subtotal is less than 3
 
 ```sh
-jexp '.details.last(p=> p.unitPrice * p.qty < 3 ).article
+jexp '.details.last(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
 ```
 
 Result:
 
 ```json
-/bin/sh: 1: Syntax error: Unterminated quoted string
+"Pear"
 ```
 
 Get the first detail where the subtotal is less than 3
@@ -496,13 +496,18 @@ Result:
 Get the list of items without repeating
 
 ```sh
-jexp '.details.distinct(p=>p.article)' ./data/orders.json
+jexp '.details.distinct(p=>p.article)' ./data/orders.json -b
 ```
 
 Result:
 
 ```json
-["Pear","Banana","White grape","Apple"]
+[
+  "Pear",
+  "Banana",
+  "White grape",
+  "Apple"
+]
 ```
 
 Get the list of items and quantity without repeating
@@ -517,14 +522,37 @@ Result:
 [{"article":"Pear","qty":2},{"article":"Banana","qty":1},{"article":"White grape","qty":1},{"article":"Apple","qty":1},{"article":"Banana","qty":2},{"article":"Pear","qty":1}]
 ```
 
+Get the total and amount of each item
+
 ```sh
-jexp '.details.map(p=>{article:p.article,count:count(1),total:sum(p.qty * p.unitPrice)})' ./data/orders.json
+jexp '.details.map(p=>{article:p.article,count:count(1),total:sum(p.qty * p.unitPrice)})' ./data/orders.json -b
 ```
 
 Result:
 
 ```json
-[{"article":"Pear","count":2,"total":5.34},{"article":"Banana","count":2,"total":5.97},{"article":"White grape","count":1,"total":2.03},{"article":"Apple","count":1,"total":2.15}]
+[
+  {
+    "article": "Pear",
+    "count": 2,
+    "total": 5.34
+  },
+  {
+    "article": "Banana",
+    "count": 2,
+    "total": 5.97
+  },
+  {
+    "article": "White grape",
+    "count": 1,
+    "total": 2.03
+  },
+  {
+    "article": "Apple",
+    "count": 1,
+    "total": 2.15
+  }
+]
 ```
 
 Get the total of the first order
@@ -542,13 +570,15 @@ Result:
 Get the total of the last order
 
 ```sh
-jexp '{total:.[.length()-1].details.sum(p=>p.qty * p.unitPrice)}' ./data/orders.json
+jexp '{total:.[.length()-1].details.sum(p=>p.qty * p.unitPrice)}' ./data/orders.json -b
 ```
 
 Result:
 
 ```json
-{"total":7.91}
+{
+  "total": 7.91
+}
 ```
 
 List the orders with their totals
