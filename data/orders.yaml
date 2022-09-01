@@ -28,3 +28,22 @@
     - article: Pear
       unitPrice: 1.78
       qty: 1
+- number: '20003'
+  customer:
+    firstName: George
+    lastName: Williams
+  orderTime: '2022-07-30T14:43:11'
+  details:
+    - article: Apple
+      unitPrice: 2.15
+      qty: 1
+    - article: Banana
+      unitPrice: 1.99
+      qty: 1
+    - article: Pear
+      unitPrice: 1.78
+      qty: 1
+    - article: White grape
+      unitPrice: 2.03
+      qty: 1
+
