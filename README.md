@@ -4,12 +4,15 @@ Command line application that allows parser and evaluator of json/yaml applying 
 
 ## Features
 
-- Constants, enums, variables, objects and arrays
-- Arithmetic, assignment, comparison, Logical and bitwise operators
-- Functions and arrow functions
-- distinct and group by
+- json and yaml formats
+- Constants, enums, number, string, datetime, variables, objects and array
+- Arithmetic , assignment , comparison , logical and bitwise operators
+- Number , string , datetime , array and nullable functions
+- Conversion functions
+- Arrow functions
+- Group functions (distinct, first, last, min, max, sum and avg)
+- Sets functions (union, intersection, difference and symmetric difference)
 - Environment variables
-- json and yaml
 
 ## Global installation
 
@@ -27,11 +30,10 @@ jexp <expression> <source> [options]
 
 ### Expression
 
-The expressions correspond to the package [js-expressions](https://www.npmjs.com/package/js-expressions)
-
-expression that is applied to the data source  
-
-the root of the data is accessed from **dot**
+> The expressions correspond to the package [js-expressions](https://www.npmjs.com/package/js-expressions)
+> expression that is applied to the data source  
+>
+> The root of the data is accessed from **dot**
 
 ```sh
 jexp '.' ./data/orders.json
@@ -105,6 +107,17 @@ file orders.js
       { "article": "Banana", "unitPrice": 1.99, "qty": 2 },
       { "article": "Pear", "unitPrice": 1.78, "qty": 1 }
     ]
+  },
+  {
+    "number": "20003",
+    "customer": { "firstName": "George", "lastName": "Williams" },
+    "orderTime": "2022-07-30T14:43:11",
+    "details": [
+      { "article": "Apple", "unitPrice": 2.15, "qty": 1 },
+      { "article": "Banana", "unitPrice": 1.99, "qty": 1 },
+      { "article": "Pear", "unitPrice": 1.78, "qty": 1 },
+      { "article": "White grape", "unitPrice": 2.03, "qty": 1 }
+    ]
   }
 ]
 ```
@@ -118,7 +131,7 @@ jexp '.' ./data/orders.json
 *Result*:
 
 ```json
-[{"number":"20001","customer":{"firstName":"John","lastName":"Murphy"},"orderTime":"2022-07-30T10:15:54","details":[{"article":"Pear","unitPrice":1.78,"qty":2},{"article":"Banana","unitPrice":1.99,"qty":1},{"article":"White grape","unitPrice":2.03,"qty":1}]},{"number":"20002","customer":{"firstName":"Paul","lastName":"Smith"},"orderTime":"2022-07-30T12:12:43","details":[{"article":"Apple","unitPrice":2.15,"qty":1},{"article":"Banana","unitPrice":1.99,"qty":2},{"article":"Pear","unitPrice":1.78,"qty":1}]}]
+[{"number":"20001","customer":{"firstName":"John","lastName":"Murphy"},"orderTime":"2022-07-30T10:15:54","details":[{"article":"Pear","unitPrice":1.78,"qty":2},{"article":"Banana","unitPrice":1.99,"qty":1},{"article":"White grape","unitPrice":2.03,"qty":1}]},{"number":"20002","customer":{"firstName":"Paul","lastName":"Smith"},"orderTime":"2022-07-30T12:12:43","details":[{"article":"Apple","unitPrice":2.15,"qty":1},{"article":"Banana","unitPrice":1.99,"qty":2},{"article":"Pear","unitPrice":1.78,"qty":1}]},{"number":"20003","customer":{"firstName":"George","lastName":"Williams"},"orderTime":"2022-07-30T14:43:11","details":[{"article":"Apple","unitPrice":2.15,"qty":1},{"article":"Banana","unitPrice":1.99,"qty":1},{"article":"Pear","unitPrice":1.78,"qty":1},{"article":"White grape","unitPrice":2.03,"qty":1}]}]
 ```
 
 **Returns the number property of the list**:
@@ -130,7 +143,7 @@ jexp '.number' ./data/orders.json
 *Result*:
 
 ```json
-["20001","20002"]
+["20001","20002","20003"]
 ```
 
 **Concatenates two properties and capitalizes the first one**:
@@ -258,7 +271,7 @@ jexp '.details' ./data/orders.json
 *Result*:
 
 ```json
-[{"article":"Pear","unitPrice":1.78,"qty":2},{"article":"Banana","unitPrice":1.99,"qty":1},{"article":"White grape","unitPrice":2.03,"qty":1},{"article":"Apple","unitPrice":2.15,"qty":1},{"article":"Banana","unitPrice":1.99,"qty":2},{"article":"Pear","unitPrice":1.78,"qty":1}]
+[{"article":"Pear","unitPrice":1.78,"qty":2},{"article":"Banana","unitPrice":1.99,"qty":1},{"article":"White grape","unitPrice":2.03,"qty":1},{"article":"Apple","unitPrice":2.15,"qty":1},{"article":"Banana","unitPrice":1.99,"qty":2},{"article":"Pear","unitPrice":1.78,"qty":1},{"article":"Apple","unitPrice":2.15,"qty":1},{"article":"Banana","unitPrice":1.99,"qty":1},{"article":"Pear","unitPrice":1.78,"qty":1},{"article":"White grape","unitPrice":2.03,"qty":1}]
 ```
 
 **Returns the article property of the list of details of each element of the list**:
@@ -270,7 +283,7 @@ jexp '.details.article' ./data/orders.json
 *Result*:
 
 ```json
-["Pear","Banana","White grape","Apple","Banana","Pear"]
+["Pear","Banana","White grape","Apple","Banana","Pear","Apple","Banana","Pear","White grape"]
 ```
 
 **Get the minimum of the total property**:
@@ -318,7 +331,7 @@ jexp '.details.avg(p=> p.unitPrice * p.qty )' ./data/orders.json
 *Result*:
 
 ```json
-2.5816666666666666
+2.3440000000000003
 ```
 
 **Gets the sum of the total property**:
@@ -354,7 +367,7 @@ jexp '.details.count(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json
 *Result*:
 
 ```json
-4
+8
 ```
 
 **Get the first article property of all details where "unitPrice * p.qty" is less than 3**:
@@ -378,7 +391,7 @@ jexp '.details.last(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
 *Result*:
 
 ```json
-"Pear"
+"White grape"
 ```
 
 **Get the first detail where "unitPrice * p.qty" is less than 3 in beautiful format**:
@@ -442,7 +455,7 @@ jexp '.details.avg(p=> p.unitPrice * p.qty )' ./data/orders.json
 *Result*:
 
 ```json
-2.5816666666666666
+2.3440000000000003
 ```
 
 **Get the total of the details of order 1**:
@@ -466,7 +479,7 @@ jexp '.details.count(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json
 *Result*:
 
 ```json
-4
+8
 ```
 
 **Get the article of the first detail where the subtotal is less than 3**:
@@ -490,7 +503,7 @@ jexp '.details.last(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
 *Result*:
 
 ```json
-"Pear"
+"White grape"
 ```
 
 **Get the first detail where the subtotal is less than 3**:
@@ -514,7 +527,7 @@ jexp '.each(p=>p.total=p.details.sum(q=>q.qty*q.unitPrice)).map(p=>{nro:p.number
 *Result*:
 
 ```json
-[{"nro":"20001","total":7.58},{"nro":"20002","total":7.91}]
+[{"nro":"20001","total":7.58},{"nro":"20002","total":7.91},{"nro":"20003","total":7.949999999999999}]
 ```
 
 **Calculate the subtotal for each order**:
@@ -526,7 +539,7 @@ jexp '.details.foreach(p=>p.subtotal=p.qty*p.unitPrice).subtotal' ./data/orders.
 *Result*:
 
 ```json
-[3.56,1.99,2.03,2.15,3.98,1.78]
+[3.56,1.99,2.03,2.15,3.98,1.78,2.15,1.99,1.78,2.03]
 ```
 
 **calculates the total of all the details**:
@@ -538,7 +551,7 @@ jexp '.details.foreach(p=>total=nvl(total,0)+p.qty*p.unitPrice);total' ./data/or
 *Result*:
 
 ```json
-15.49
+23.44
 ```
 
 **Get the list of items without repeating**:
@@ -582,23 +595,23 @@ jexp '.details.map(p=>{article:p.article,count:count(1),total:sum(p.qty * p.unit
 [
   {
     "article": "Pear",
-    "count": 2,
-    "total": 5.34
+    "count": 3,
+    "total": 7.12
   },
   {
     "article": "Banana",
-    "count": 2,
-    "total": 5.97
+    "count": 3,
+    "total": 7.96
   },
   {
     "article": "White grape",
-    "count": 1,
-    "total": 2.03
+    "count": 2,
+    "total": 4.06
   },
   {
     "article": "Apple",
-    "count": 1,
-    "total": 2.15
+    "count": 2,
+    "total": 4.3
   }
 ]
 ```
@@ -625,7 +638,7 @@ jexp '{total:.[.length()-1].details.sum(p=>p.qty * p.unitPrice)}' ./data/orders.
 
 ```json
 {
-  "total": 7.91
+  "total": 7.949999999999999
 }
 ```
 
@@ -638,24 +651,30 @@ jexp '.map(p=>{nro:p.number,total:p.details.sum(q=>q.qty * q.unitPrice)})' ./dat
 *Result*:
 
 ```json
-[{"nro":"20001","total":7.58},{"nro":"20002","total":7.91}]
+[{"nro":"20001","total":7.58},{"nro":"20002","total":7.91},{"nro":"20003","total":7.949999999999999}]
 ```
 
 ## js-expression
 
-[Js-expression](https://www.npmjs.com/package/js-expressions) is an extensible expression evaluator and parser. \
-Besides the operators, functions, variables, objects and arrays that are supported
+> [Js-expression](https://www.npmjs.com/package/js-expressions) is an extensible expression evaluator and parser.
+>
+> Besides the operators, functions, variables, objects and arrays that are supported.
 
 ### Documentation
 
-- [Array](https://github.com/FlavioLionelRita/js-expressions/wiki/Array)
-- [Assignment](https://github.com/FlavioLionelRita/js-expressions/wiki/Assignment)
-- [Bitwise](https://github.com/FlavioLionelRita/js-expressions/wiki/Bitwise)
+- [Arithmetic](https://github.com/FlavioLionelRita/js-expressions/wiki/Arithmetic)
 - [Comparison](https://github.com/FlavioLionelRita/js-expressions/wiki/Comparison)
-- [Control flows](https://github.com/FlavioLionelRita/js-expressions/wiki/Flows)
-- [Datetime](https://github.com/FlavioLionelRita/js-expressions/wiki/Datetime)
-- [Extend](https://github.com/FlavioLionelRita/js-expressions/wiki/Extend)
 - [Logical](https://github.com/FlavioLionelRita/js-expressions/wiki/Logical)
-- [Nullable](https://github.com/FlavioLionelRita/js-expressions/wiki/Nullable)
+- [Bitwise](https://github.com/FlavioLionelRita/js-expressions/wiki/Bitwise)
 - [Numeric](https://github.com/FlavioLionelRita/js-expressions/wiki/Numeric)
 - [String](https://github.com/FlavioLionelRita/js-expressions/wiki/String)
+- [Datetime](https://github.com/FlavioLionelRita/js-expressions/wiki/Datetime)
+- [Nullable](https://github.com/FlavioLionelRita/js-expressions/wiki/Nullable)
+- [Conversion](https://github.com/FlavioLionelRita/js-expressions/wiki/Conversion)
+- [Assignment](https://github.com/FlavioLionelRita/js-expressions/wiki/Assignment)
+- [Array](https://github.com/FlavioLionelRita/js-expressions/wiki/Array)
+- [Arrow](https://github.com/FlavioLionelRita/js-expressions/wiki/Arrow)
+- [Group](https://github.com/FlavioLionelRita/js-expressions/wiki/Group)
+- [Sets](https://github.com/FlavioLionelRita/js-expressions/wiki/Sets)
+- [Control flows](https://github.com/FlavioLionelRita/js-expressions/wiki/Flows)
+- [Extend](https://github.com/FlavioLionelRita/js-expressions/wiki/Extend)
