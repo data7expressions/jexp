@@ -15,7 +15,7 @@ import { show } from './util'
     { cmd: 'jexp \'.min(p=> p.total)\' ./data/orders.json', desc: 'Get the minimum of the total property' },
     { cmd: 'jexp \'.details.min(p=> p.article )\' ./data/orders.json', desc: 'Get the minimum of the article property from all the details' },
     { cmd: 'jexp \'.details.max(p=> p.unitPrice * p.qty )\' ./data/orders.json', desc: 'Get the maximum "unitPrice * p.qty" from all the details' },
-    { cmd: 'jexp \'.details.avg(p=> p.unitPrice * p.qty )\' ./data/orders.json', desc: 'Get the middle value "unitPrice * p.qty" from all the details' },
+    { cmd: 'jexp \'round(.details.avg(p=> p.unitPrice * p.qty),2)\' ./data/orders.json', desc: 'Get the middle value "unitPrice * p.qty" from all the details' },
     { cmd: 'jexp \'.sum(p=> p.total )\' ./data/orders.json', desc: 'Gets the sum of the total property' },
     { cmd: 'jexp \'.[1].details.sum(p=> p.unitPrice * p.qty )\' ./data/orders.json', desc: 'Get the sum "unitPrice * p.qty" of the details of item 1 of the list' },
     { cmd: 'jexp \'.details.count(p=> p.unitPrice * p.qty < 3 )\' ./data/orders.json', desc: 'Get the number of details where "unitPrice * p.qty " is less than 3' },
@@ -25,7 +25,7 @@ import { show } from './util'
     { cmd: 'curl -s https://raw.githubusercontent.com/FlavioLionelRita/jexp/main/data/orders.json | jexp \'.details.sum(p=> p.unitPrice * p.qty )\'', desc: 'Get the sum "unitPrice * p.qty" of the details of item 1 of the list using pipeline' },
 		{ cmd: 'jexp \'.details.min(p=> p.article )\' ./data/orders.json', desc: 'Get the smallest article' },
 		{ cmd: 'jexp \'.details.max(p=> p.unitPrice * p.qty )\' ./data/orders.json', desc: 'Get the total of all the details' },
-		{ cmd: 'jexp \'.details.avg(p=> p.unitPrice * p.qty )\' ./data/orders.json', desc: 'Get the mean value of all details' },
+		{ cmd: 'jexp \'round(.filter(p=> p.number == "20003").details.avg(p=> p.unitPrice),2)\' ./data/orders.json', desc: 'Average value of the price of the items purchased in the order 20003' },
 		{ cmd: 'jexp \'.[1].details.sum(p=> p.unitPrice * p.qty )\' ./data/orders.json', desc: 'Get the total of the details of order 1' },
 		{ cmd: 'jexp \'.details.count(p=> p.unitPrice * p.qty < 3 )\' ./data/orders.json', desc: 'Gets the number of details where the subtotal is less than 3' },
 		{ cmd: 'jexp \'.details.first(p=> p.unitPrice * p.qty < 3 ).article\' ./data/orders.json', desc: 'Get the article of the first detail where the subtotal is less than 3' },
@@ -38,8 +38,12 @@ import { show } from './util'
 		{ cmd: 'jexp \'.details.distinct(p=>{article:p.article,qty:p.qty}) -b\' ./data/orders.json', desc: 'Get the list of items and quantity without repeating' },
 		{ cmd: 'jexp \'.details.map(p=>{article:p.article,count:count(1),total:sum(p.qty * p.unitPrice)})\' ./data/orders.json -b', desc: 'Get the total and amount of each item' },
 		{ cmd: 'jexp \'{total:.[0].details.sum(p=>p.qty * p.unitPrice)}\' ./data/orders.json', desc: 'Get the total of the first order' },
-    { cmd: 'jexp \'{total:.[.length()-1].details.sum(p=>p.qty * p.unitPrice)}\' ./data/orders.json -b', desc: 'Get the total of the last order' },
-		{ cmd: 'jexp \'.map(p=>{nro:p.number,total:p.details.sum(q=>q.qty * q.unitPrice)})\' ./data/orders.json', desc: 'List the orders with their totals' }
+    { cmd: 'jexp \'{total:round(.[.length()-1].details.sum(p=>p.qty * p.unitPrice),2)}\' ./data/orders.json -b', desc: 'Get the total of the last order' },
+		{ cmd: 'jexp \'.map(p=>{nro:p.number,total:p.details.sum(q=>q.qty * q.unitPrice)})\' ./data/orders.json', desc: 'List the orders with their totals' },
+    { cmd: 'jexp \'.[0].details.article.union(.[1].details.article)\' ./data/orders.json', desc: 'All articles that are in orders 20001 and 20003' },
+    { cmd: 'jexp \'.[0].details.article.intersection(.[1].details.article)\' ./data/orders.json', desc: 'The articles in common between order 20001 and 20002' },
+    { cmd: 'jexp \'.[0].details.article.difference(.[1].details.article)\' ./data/orders.json', desc: 'Articles that are in order 20001 and are not in order 20002' },
+    { cmd: 'jexp \'.[0].details.article.symmetricDifference(.[1].details.article)\' ./data/orders.json', desc: 'Articles of orders 20001 and 20003 that are not shared' }
   ]
   await show(list)
 })()
