@@ -286,16 +286,16 @@ jexp '.details.article' ./data/orders.json
 ["Pear","Banana","White grape","Apple","Banana","Pear","Apple","Banana","Pear","White grape"]
 ```
 
-**Get the minimum of the total property**:
+**The order with the smallest total**:
 
 ```sh
-jexp '.min(p=> p.total)' ./data/orders.json
+jexp '.map(p=>{nro:p.number,total:p.details.sum(q=> q.unitPrice * q.qty)}).min(p=> p.total)' ./data/orders.json
 ```
 
 *Result*:
 
 ```json
-null
+7.58
 ```
 
 **Get the minimum of the article property from all the details**:
@@ -379,7 +379,13 @@ jexp '.details.first(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
 *Result*:
 
 ```json
-"Banan…unitPrice * p.qty < 3 ).article' ./data/orders.json
+"Banana"
+```
+
+**Get the last article property of all details where "unitPrice * p.qty" is less than 3**:
+
+```sh
+jexp '.details.last(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
 ```
 
 *Result*:
@@ -402,18 +408,6 @@ jexp '.details.first(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json -b
   "unitPrice": 1.99,
   "qty": 1
 }
-```
-
-**Get the sum "unitPrice * p.qty" of the details of item 1 of the list using pipeline**:
-
-```sh
-curl -s https://raw.githubusercontent.com/FlavioLionelRita/jexp/main/data/orders.json | jexp '.details.sum(p=> p.unitPrice * p.qty )'
-```
-
-*Result*:
-
-```json
-23.44
 ```
 
 **Get the smallest article**:
@@ -565,18 +559,6 @@ jexp '.details.distinct(p=>p.article)' ./data/orders.json -b
 ]
 ```
 
-**Get the list of items and quantity without repeating**:
-
-```sh
-jexp '.details.distinct(p=>{article:p.article,qty:p.qty}) -b' ./data/orders.json
-```
-
-*Result*:
-
-```json
-null
-```
-
 **Get the total and amount of each item**:
 
 ```sh
@@ -639,13 +621,26 @@ jexp '{total:round(.[.length()-1].details.sum(p=>p.qty * p.unitPrice),2)}' ./dat
 **List the orders with their totals**:
 
 ```sh
-jexp '.map(p=>{nro:p.number,total:p.details.sum(q=>q.qty * q.unitPrice)})' ./data/orders.json
+jexp '.map(p=>{nro:p.number,total:round(p.details.sum(q=>q.qty * q.unitPrice),2)})' ./data/orders.json -b
 ```
 
 *Result*:
 
 ```json
-[{"nro":"20001","total":7.58},{"nro":"20002","total":7.91},{"nro":"20003","total":7.949999999999999}]
+[
+  {
+    "nro": "20001",
+    "total": 7.6
+  },
+  {
+    "nro": "20002",
+    "total": 7.9
+  },
+  {
+    "nro": "20003",
+    "total": 7.95
+  }
+]
 ```
 
 **All articles that are in orders 20001 and 20003**:
@@ -694,6 +689,18 @@ jexp '.[0].details.article.symmetricDifference(.[1].details.article)' ./data/ord
 
 ```json
 ["White grape","Apple"]
+```
+
+**Get the sum "unitPrice * p.qty" of the details of item 1 of the list using pipeline**:
+
+```sh
+curl -s https://raw.githubusercontent.com/FlavioLionelRita/jexp/main/data/orders.json | jexp '.details.sum(p=> p.unitPrice * p.qty )'
+```
+
+*Result*:
+
+```json
+23.44
 ```
 
 ## js-expression

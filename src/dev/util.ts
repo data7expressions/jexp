@@ -49,5 +49,8 @@ ${expect}
 			console.log(`command: ${item.cmd} error: ${error}`)
 		}
 	}
+
+	// await new Promise(resolve => setTimeout(resolve, 2 * 1000))
+	console.log('Examples:')
 	console.log(examples.join('\n'))
 }
