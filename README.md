@@ -325,13 +325,13 @@ jexp '.details.max(p=> p.unitPrice * p.qty )' ./data/orders.json
 **Get the middle value "unitPrice * p.qty" from all the details**:
 
 ```sh
-jexp '.details.avg(p=> p.unitPrice * p.qty )' ./data/orders.json
+jexp 'round(.details.avg(p=> p.unitPrice * p.qty),2)' ./data/orders.json
 ```
 
 *Result*:
 
 ```json
-2.3440000000000003
+2.35
 ```
 
 **Gets the sum of the total property**:
@@ -379,13 +379,7 @@ jexp '.details.first(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
 *Result*:
 
 ```json
-"Banana"
-```
-
-**Get the last article property of all details where "unitPrice * p.qty" is less than 3**:
-
-```sh
-jexp '.details.last(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
+"Banan…unitPrice * p.qty < 3 ).article' ./data/orders.json
 ```
 
 *Result*:
@@ -419,7 +413,7 @@ curl -s https://raw.githubusercontent.com/FlavioLionelRita/jexp/main/data/orders
 *Result*:
 
 ```json
-15.49
+23.44
 ```
 
 **Get the smallest article**:
@@ -446,16 +440,16 @@ jexp '.details.max(p=> p.unitPrice * p.qty )' ./data/orders.json
 3.98
 ```
 
-**Get the mean value of all details**:
+**Average value of the price of the items purchased in the order 20003**:
 
 ```sh
-jexp '.details.avg(p=> p.unitPrice * p.qty )' ./data/orders.json
+jexp 'round(.filter(p=> p.number == "20003").details.avg(p=> p.unitPrice),2)' ./data/orders.json
 ```
 
 *Result*:
 
 ```json
-2.3440000000000003
+2
 ```
 
 **Get the total of the details of order 1**:
@@ -631,14 +625,14 @@ jexp '{total:.[0].details.sum(p=>p.qty * p.unitPrice)}' ./data/orders.json
 **Get the total of the last order**:
 
 ```sh
-jexp '{total:.[.length()-1].details.sum(p=>p.qty * p.unitPrice)}' ./data/orders.json -b
+jexp '{total:round(.[.length()-1].details.sum(p=>p.qty * p.unitPrice),2)}' ./data/orders.json -b
 ```
 
 *Result*:
 
 ```json
 {
-  "total": 7.949999999999999
+  "total": 7.95
 }
 ```
 
@@ -652,6 +646,54 @@ jexp '.map(p=>{nro:p.number,total:p.details.sum(q=>q.qty * q.unitPrice)})' ./dat
 
 ```json
 [{"nro":"20001","total":7.58},{"nro":"20002","total":7.91},{"nro":"20003","total":7.949999999999999}]
+```
+
+**All articles that are in orders 20001 and 20003**:
+
+```sh
+jexp '.[0].details.article.union(.[1].details.article)' ./data/orders.json
+```
+
+*Result*:
+
+```json
+["Pear","Banana","White grape","Apple"]
+```
+
+**The articles in common between order 20001 and 20002**:
+
+```sh
+jexp '.[0].details.article.intersection(.[1].details.article)' ./data/orders.json
+```
+
+*Result*:
+
+```json
+["Banana","Pear"]
+```
+
+**Articles that are in order 20001 and are not in order 20002**:
+
+```sh
+jexp '.[0].details.article.difference(.[1].details.article)' ./data/orders.json
+```
+
+*Result*:
+
+```json
+["White grape"]
+```
+
+**Articles of orders 20001 and 20003 that are not shared**:
+
+```sh
+jexp '.[0].details.article.symmetricDifference(.[1].details.article)' ./data/orders.json
+```
+
+*Result*:
+
+```json
+["White grape","Apple"]
 ```
 
 ## js-expression
