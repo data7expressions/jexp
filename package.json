@@ -1,6 +1,6 @@
 {
 	"name": "jexp",
-	"version": "0.1.10",
+	"version": "0.1.11",
 	"description": "Parser and evaluator of expressions by line of commands. The expressions correspond to the package js-expressions",
 	"author": "Flavio Lionel Rita <flaviolrita@hotmail.com>",
 	"license": "Apache-2.0 License",
@@ -20,11 +20,16 @@
 	"scripts": {
 		"lint": "grunt lint",
 		"build": "grunt build",
-		"dist": "grunt dist"
+		"test": "grunt test",
+		"dist": "grunt dist",
+		"to_develop": "grunt to_develop",
+		"release": "grunt release",
+		"doc": "grunt doc"
 	},
 	"dependencies": {
 		"commander": "^9.4.0",
-		"js-expressions": "1.1.0",
+		"jemv": "0.0.14",
+		"js-expressions": "1.1.9",
 		"js-yaml": "^4.1.0"
 	},
 	"devDependencies": {
@@ -44,7 +49,9 @@
 		"grunt-contrib-copy": "^1.0.0",
 		"grunt-contrib-uglify": "^5.0.1",
 		"grunt-exec": "^3.0.0",
+		"jest": "^27.2.1",
 		"load-grunt-tasks": "^5.1.0",
+		"ts-jest": "^27.0.5",
 		"ts-node": "^10.0.0",
 		"typedoc": "^0.22.11",
 		"typedoc-plugin-markdown": "3.11.14",
@@ -57,7 +64,10 @@
 		"exp",
 		"parser",
 		"eval",
-		"evaluator"
+		"evaluator",
+		"json",
+		"schema",
+		"json-schema"
 	],
 	"tags": [
 		"cli",

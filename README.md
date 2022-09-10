@@ -24,8 +24,23 @@ npm install jexp -g
 
 ## Usage
 
+### Commands
+
+| Command   | Description                                         |
+|-----------|-----------------------------------------------------|
+| eval      | returns the result of the expression on the source  |
+| validate  | validate the source from a schema                   |
+
+Eval:
+
 ```sh
-jexp <expression> <source> [options]
+jexp eval <expression> <source> [options]
+```
+
+Validate:
+
+```sh
+jexp validate <schema> <source> [options]
 ```
 
 ### Expression
@@ -36,17 +51,17 @@ jexp <expression> <source> [options]
 > The root of the data is accessed from **dot**
 
 ```sh
-jexp '.' ./data/orders.json
+jexp eval '.' ./data/orders.json
 ```
 
 From the **dot** we write the expressions
 
 ```sh
-jexp '.details.article' ./data/orders.json
+jexp eval '.details.article' ./data/orders.json
 ```
 
 ```sh
-jexp '.details.first(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json
+jexp eval '.details.first(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json
 ```
 
 ### Source
@@ -54,25 +69,25 @@ jexp '.details.first(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json
 Get data source from json file
 
 ```sh
-jexp '.[0].details' ./data/orders.json
+jexp eval '.[0].details' ./data/orders.json
 ```
 
 Get data source from yaml file
 
 ```sh
-jexp '.min(p=> p.total)' ./data/orders.yaml
+jexp eval '.min(p=> p.total)' ./data/orders.yaml
 ```
 
 Get data source from json stringify
 
 ```sh
-jexp 'concatenate(capitalize(.fruit.name)," ",.fruit.color)' '{"fruit":{"name":"apple","color":"green","price":1.20}}'
+jexp eval 'concatenate(capitalize(.fruit.name)," ",.fruit.color)' '{"fruit":{"name":"apple","color":"green","price":1.20}}'
 ```
 
 Get data source from pipeline command
 
 ```sh
-curl -s https://raw.githubusercontent.com/FlavioLionelRita/jexp/main/data/orders.json | jexp '.number'
+curl -s https://raw.githubusercontent.com/FlavioLionelRita/jexp/main/data/orders.json | jexp eval '.number'
 ```
 
 ### Options
@@ -125,7 +140,7 @@ file orders.js
 **Return the entire content of the file**:
 
 ```sh
-jexp '.' ./data/orders.json
+jexp eval '.' ./data/orders.json
 ```
 
 *Result*:
@@ -137,7 +152,7 @@ jexp '.' ./data/orders.json
 **Returns the number property of the list**:
 
 ```sh
-jexp '.number' ./data/orders.json
+jexp eval '.number' ./data/orders.json
 ```
 
 *Result*:
@@ -149,7 +164,7 @@ jexp '.number' ./data/orders.json
 **Concatenates two properties and capitalizes the first one**:
 
 ```sh
-jexp 'concatenate(capitalize(.fruit.name)," ",.fruit.color)' '{"fruit":{"name":"apple","color":"green","price":1.20}}'
+jexp eval 'concatenate(capitalize(.fruit.name)," ",.fruit.color)' '{"fruit":{"name":"apple","color":"green","price":1.20}}'
 ```
 
 *Result*:
@@ -161,7 +176,7 @@ jexp 'concatenate(capitalize(.fruit.name)," ",.fruit.color)' '{"fruit":{"name":"
 **Returns the first element of an array from the index in yaml format**:
 
 ```sh
-jexp '.[0]' ./data/orders.json -o yaml
+jexp eval '.[0]' ./data/orders.json -o yaml
 ```
 
 *Result*:
@@ -188,7 +203,7 @@ details:
 **Returns the details property of the first element in beautiful format**:
 
 ```sh
-jexp '.[0].details' ./data/orders.json -b
+jexp eval '.[0].details' ./data/orders.json -b
 ```
 
 *Result*:
@@ -216,7 +231,7 @@ jexp '.[0].details' ./data/orders.json -b
 **Returns the details property of the first element, as the file is yaml, it returns it in yaml format**:
 
 ```sh
-jexp '.[0].details' ./data/orders.yaml
+jexp eval '.[0].details' ./data/orders.yaml
 ```
 
 *Result*:
@@ -237,7 +252,7 @@ jexp '.[0].details' ./data/orders.yaml
 **Returns the details property of the first element, although the file is yaml it forces the output in json format**:
 
 ```sh
-jexp '.[0].details' ./data/orders.yaml -b -o json
+jexp eval '.[0].details' ./data/orders.yaml -b -o json
 ```
 
 *Result*:
@@ -265,7 +280,7 @@ jexp '.[0].details' ./data/orders.yaml -b -o json
 **Returns the details property of the listing**:
 
 ```sh
-jexp '.details' ./data/orders.json
+jexp eval '.details' ./data/orders.json
 ```
 
 *Result*:
@@ -277,7 +292,7 @@ jexp '.details' ./data/orders.json
 **Returns the article property of the list of details of each element of the list**:
 
 ```sh
-jexp '.details.article' ./data/orders.json
+jexp eval '.details.article' ./data/orders.json
 ```
 
 *Result*:
@@ -289,7 +304,7 @@ jexp '.details.article' ./data/orders.json
 **The order with the smallest total**:
 
 ```sh
-jexp '.map(p=>{nro:p.number,total:p.details.sum(q=> q.unitPrice * q.qty)}).min(p=> p.total)' ./data/orders.json
+jexp eval '.map(p=>{nro:p.number,total:p.details.sum(q=> q.unitPrice * q.qty)}).min(p=> p.total)' ./data/orders.json
 ```
 
 *Result*:
@@ -301,7 +316,7 @@ jexp '.map(p=>{nro:p.number,total:p.details.sum(q=> q.unitPrice * q.qty)}).min(p
 **Get the minimum of the article property from all the details**:
 
 ```sh
-jexp '.details.min(p=> p.article )' ./data/orders.json
+jexp eval '.details.min(p=> p.article )' ./data/orders.json
 ```
 
 *Result*:
@@ -313,7 +328,7 @@ jexp '.details.min(p=> p.article )' ./data/orders.json
 **Get the maximum "unitPrice * p.qty" from all the details**:
 
 ```sh
-jexp '.details.max(p=> p.unitPrice * p.qty )' ./data/orders.json
+jexp eval '.details.max(p=> p.unitPrice * p.qty )' ./data/orders.json
 ```
 
 *Result*:
@@ -325,7 +340,7 @@ jexp '.details.max(p=> p.unitPrice * p.qty )' ./data/orders.json
 **Get the middle value "unitPrice * p.qty" from all the details**:
 
 ```sh
-jexp 'round(.details.avg(p=> p.unitPrice * p.qty),2)' ./data/orders.json
+jexp eval 'round(.details.avg(p=> p.unitPrice * p.qty),2)' ./data/orders.json
 ```
 
 *Result*:
@@ -337,7 +352,7 @@ jexp 'round(.details.avg(p=> p.unitPrice * p.qty),2)' ./data/orders.json
 **Gets the sum of the total property**:
 
 ```sh
-jexp '.sum(p=> p.total )' ./data/orders.json
+jexp eval '.sum(p=> p.total )' ./data/orders.json
 ```
 
 *Result*:
@@ -349,7 +364,7 @@ jexp '.sum(p=> p.total )' ./data/orders.json
 **Get the sum "unitPrice * p.qty" of the details of item 1 of the list**:
 
 ```sh
-jexp '.[1].details.sum(p=> p.unitPrice * p.qty )' ./data/orders.json
+jexp eval '.[1].details.sum(p=> p.unitPrice * p.qty )' ./data/orders.json
 ```
 
 *Result*:
@@ -361,7 +376,7 @@ jexp '.[1].details.sum(p=> p.unitPrice * p.qty )' ./data/orders.json
 **Get the number of details where "unitPrice * p.qty " is less than 3**:
 
 ```sh
-jexp '.details.count(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json
+jexp eval '.details.count(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json
 ```
 
 *Result*:
@@ -373,7 +388,7 @@ jexp '.details.count(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json
 **Get the first article property of all details where "unitPrice * p.qty" is less than 3**:
 
 ```sh
-jexp '.details.first(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
+jexp eval '.details.first(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
 ```
 
 *Result*:
@@ -385,7 +400,7 @@ jexp '.details.first(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
 **Get the last article property of all details where "unitPrice * p.qty" is less than 3**:
 
 ```sh
-jexp '.details.last(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
+jexp eval '.details.last(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
 ```
 
 *Result*:
@@ -397,7 +412,7 @@ jexp '.details.last(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
 **Get the first detail where "unitPrice * p.qty" is less than 3 in beautiful format**:
 
 ```sh
-jexp '.details.first(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json -b
+jexp eval '.details.first(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json -b
 ```
 
 *Result*:
@@ -413,7 +428,7 @@ jexp '.details.first(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json -b
 **Get the smallest article**:
 
 ```sh
-jexp '.details.min(p=> p.article )' ./data/orders.json
+jexp eval '.details.min(p=> p.article )' ./data/orders.json
 ```
 
 *Result*:
@@ -425,7 +440,7 @@ jexp '.details.min(p=> p.article )' ./data/orders.json
 **Get the total of all the details**:
 
 ```sh
-jexp '.details.max(p=> p.unitPrice * p.qty )' ./data/orders.json
+jexp eval '.details.max(p=> p.unitPrice * p.qty )' ./data/orders.json
 ```
 
 *Result*:
@@ -437,7 +452,7 @@ jexp '.details.max(p=> p.unitPrice * p.qty )' ./data/orders.json
 **Average value of the price of the items purchased in the order 20003**:
 
 ```sh
-jexp 'round(.filter(p=> p.number == "20003").details.avg(p=> p.unitPrice),2)' ./data/orders.json
+jexp eval 'round(.filter(p=> p.number == "20003").details.avg(p=> p.unitPrice),2)' ./data/orders.json
 ```
 
 *Result*:
@@ -449,7 +464,7 @@ jexp 'round(.filter(p=> p.number == "20003").details.avg(p=> p.unitPrice),2)' ./
 **Get the total of the details of order 1**:
 
 ```sh
-jexp '.[1].details.sum(p=> p.unitPrice * p.qty )' ./data/orders.json
+jexp eval '.[1].details.sum(p=> p.unitPrice * p.qty )' ./data/orders.json
 ```
 
 *Result*:
@@ -461,7 +476,7 @@ jexp '.[1].details.sum(p=> p.unitPrice * p.qty )' ./data/orders.json
 **Gets the number of details where the subtotal is less than 3**:
 
 ```sh
-jexp '.details.count(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json
+jexp eval '.details.count(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json
 ```
 
 *Result*:
@@ -473,7 +488,7 @@ jexp '.details.count(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json
 **Get the article of the first detail where the subtotal is less than 3**:
 
 ```sh
-jexp '.details.first(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
+jexp eval '.details.first(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
 ```
 
 *Result*:
@@ -485,7 +500,7 @@ jexp '.details.first(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
 **Get the article of the last detail where the subtotal is less than 3**:
 
 ```sh
-jexp '.details.last(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
+jexp eval '.details.last(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
 ```
 
 *Result*:
@@ -497,7 +512,7 @@ jexp '.details.last(p=> p.unitPrice * p.qty < 3 ).article' ./data/orders.json
 **Get the first detail where the subtotal is less than 3**:
 
 ```sh
-jexp '.details.first(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json
+jexp eval '.details.first(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json
 ```
 
 *Result*:
@@ -509,7 +524,7 @@ jexp '.details.first(p=> p.unitPrice * p.qty < 3 )' ./data/orders.json
 **Calculate the total for each order**:
 
 ```sh
-jexp '.each(p=>p.total=p.details.sum(q=>q.qty*q.unitPrice)).map(p=>{nro:p.number,total:p.total})' ./data/orders.json
+jexp eval '.each(p=>p.total=p.details.sum(q=>q.qty*q.unitPrice)).map(p=>{nro:p.number,total:p.total})' ./data/orders.json
 ```
 
 *Result*:
@@ -521,7 +536,7 @@ jexp '.each(p=>p.total=p.details.sum(q=>q.qty*q.unitPrice)).map(p=>{nro:p.number
 **Calculate the subtotal for each order**:
 
 ```sh
-jexp '.details.foreach(p=>p.subtotal=p.qty*p.unitPrice).subtotal' ./data/orders.json
+jexp eval '.details.foreach(p=>p.subtotal=p.qty*p.unitPrice).subtotal' ./data/orders.json
 ```
 
 *Result*:
@@ -533,7 +548,7 @@ jexp '.details.foreach(p=>p.subtotal=p.qty*p.unitPrice).subtotal' ./data/orders.
 **calculates the total of all the details**:
 
 ```sh
-jexp '.details.foreach(p=>total=nvl(total,0)+p.qty*p.unitPrice);total' ./data/orders.json
+jexp eval '.details.foreach(p=>total=nvl(total,0)+p.qty*p.unitPrice);total' ./data/orders.json
 ```
 
 *Result*:
@@ -545,7 +560,7 @@ jexp '.details.foreach(p=>total=nvl(total,0)+p.qty*p.unitPrice);total' ./data/or
 **Get the list of items without repeating**:
 
 ```sh
-jexp '.details.distinct(p=>p.article)' ./data/orders.json -b
+jexp eval '.details.distinct(p=>p.article)' ./data/orders.json -b
 ```
 
 *Result*:
@@ -562,7 +577,7 @@ jexp '.details.distinct(p=>p.article)' ./data/orders.json -b
 **Get the total and amount of each item**:
 
 ```sh
-jexp '.details.map(p=>{article:p.article,count:count(1),total:sum(p.qty * p.unitPrice)})' ./data/orders.json -b
+jexp eval '.details.map(p=>{article:p.article,count:count(1),total:sum(p.qty * p.unitPrice)})' ./data/orders.json -b
 ```
 
 *Result*:
@@ -595,7 +610,7 @@ jexp '.details.map(p=>{article:p.article,count:count(1),total:sum(p.qty * p.unit
 **Get the total of the first order**:
 
 ```sh
-jexp '{total:.[0].details.sum(p=>p.qty * p.unitPrice)}' ./data/orders.json
+jexp eval '{total:.[0].details.sum(p=>p.qty * p.unitPrice)}' ./data/orders.json
 ```
 
 *Result*:
@@ -607,7 +622,7 @@ jexp '{total:.[0].details.sum(p=>p.qty * p.unitPrice)}' ./data/orders.json
 **Get the total of the last order**:
 
 ```sh
-jexp '{total:round(.[.length()-1].details.sum(p=>p.qty * p.unitPrice),2)}' ./data/orders.json -b
+jexp eval '{total:round(.[.length()-1].details.sum(p=>p.qty * p.unitPrice),2)}' ./data/orders.json -b
 ```
 
 *Result*:
@@ -621,7 +636,7 @@ jexp '{total:round(.[.length()-1].details.sum(p=>p.qty * p.unitPrice),2)}' ./dat
 **List the orders with their totals**:
 
 ```sh
-jexp '.map(p=>{nro:p.number,total:round(p.details.sum(q=>q.qty * q.unitPrice),2)})' ./data/orders.json -b
+jexp eval '.map(p=>{nro:p.number,total:round(p.details.sum(q=>q.qty * q.unitPrice),2)})' ./data/orders.json -b
 ```
 
 *Result*:
@@ -646,7 +661,7 @@ jexp '.map(p=>{nro:p.number,total:round(p.details.sum(q=>q.qty * q.unitPrice),2)
 **All articles that are in orders 20001 and 20003**:
 
 ```sh
-jexp '.[0].details.article.union(.[1].details.article)' ./data/orders.json
+jexp eval '.[0].details.article.union(.[1].details.article)' ./data/orders.json
 ```
 
 *Result*:
@@ -658,7 +673,7 @@ jexp '.[0].details.article.union(.[1].details.article)' ./data/orders.json
 **The articles in common between order 20001 and 20002**:
 
 ```sh
-jexp '.[0].details.article.intersection(.[1].details.article)' ./data/orders.json
+jexp eval '.[0].details.article.intersection(.[1].details.article)' ./data/orders.json
 ```
 
 *Result*:
@@ -670,7 +685,7 @@ jexp '.[0].details.article.intersection(.[1].details.article)' ./data/orders.jso
 **Articles that are in order 20001 and are not in order 20002**:
 
 ```sh
-jexp '.[0].details.article.difference(.[1].details.article)' ./data/orders.json
+jexp eval '.[0].details.article.difference(.[1].details.article)' ./data/orders.json
 ```
 
 *Result*:
@@ -682,7 +697,7 @@ jexp '.[0].details.article.difference(.[1].details.article)' ./data/orders.json
 **Articles of orders 20001 and 20003 that are not shared**:
 
 ```sh
-jexp '.[0].details.article.symmetricDifference(.[1].details.article)' ./data/orders.json
+jexp eval '.[0].details.article.symmetricDifference(.[1].details.article)' ./data/orders.json
 ```
 
 *Result*:
@@ -694,7 +709,7 @@ jexp '.[0].details.article.symmetricDifference(.[1].details.article)' ./data/ord
 **Get the sum "unitPrice * p.qty" of the details of item 1 of the list using pipeline**:
 
 ```sh
-curl -s https://raw.githubusercontent.com/FlavioLionelRita/jexp/main/data/orders.json | jexp '.details.sum(p=> p.unitPrice * p.qty )'
+curl -s https://raw.githubusercontent.com/FlavioLionelRita/jexp/main/data/orders.json | jexp eval '.details.sum(p=> p.unitPrice * p.qty )'
 ```
 
 *Result*:

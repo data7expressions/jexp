@@ -5,6 +5,15 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
+			"name": "schema ref",
+			"type": "node",
+			"request": "launch",
+			"skipFiles": [
+				"<node_internals>/**"
+			],
+			"program": "${workspaceFolder}/src/dev/lab/schema/lab-ref.ts"
+		},
+		{
 			"name": "invalid parameters",
 			"type": "node",
 			"request": "launch",
@@ -17,7 +26,7 @@
 			]
 		},
         {
-			"name": "countries",
+			"name": "eval countries",
 			"type": "node",
 			"request": "launch",
 			"skipFiles": [
@@ -25,12 +34,13 @@
 			],
 			"program": "${workspaceFolder}/src/lib/index.ts",
 			"args": [
+				"eval",
 				".[0]",
                 "~/develop/jexp/data/countries.json"
 			]
 		},
 		{
-			"name": "countries yaml",
+			"name": "eval countries yaml",
 			"type": "node",
 			"request": "launch",
 			"skipFiles": [
@@ -38,6 +48,7 @@
 			],
 			"program": "${workspaceFolder}/src/lib/index.ts",
 			"args": [
+				"eval",
 				".[0]",
                 "~/develop/jexp/data/countries.json",
 				"-o",
@@ -45,7 +56,7 @@
 			]
 		},
 		{
-			"name": "countries -b",
+			"name": "eval countries -b",
 			"type": "node",
 			"request": "launch",
 			"skipFiles": [
@@ -53,13 +64,14 @@
 			],
 			"program": "${workspaceFolder}/src/lib/index.ts",
 			"args": [
+				"eval",	
 				".[0]",
                 "~/develop/jexp/data/countries.json",
 				"-b"
 			]
 		},
 		{
-			"name": "countries -d",
+			"name": "eval countries -d",
 			"type": "node",
 			"request": "launch",
 			"skipFiles": [
@@ -67,19 +79,20 @@
 			],
 			"program": "${workspaceFolder}/src/lib/index.ts",
 			"args": [
+				"eval",
 				".[0]",
                 "~/develop/jexp/data/countries.json",
 				"-d"
 			]
 		},
 		{
-			"name": "lab",
+			"name": "eval lab",
 			"type": "node",
 			"request": "launch",
 			"skipFiles": [
 				"<node_internals>/**"
 			],
-			"program": "${workspaceFolder}/src/dev/lab.ts"			
+			"program": "${workspaceFolder}/src/dev/lab/eval/lab.ts"			
 		}      
     ]
 }
