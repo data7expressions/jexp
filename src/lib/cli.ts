@@ -68,8 +68,7 @@ const getInput = async () => {
 async function main () {
 	program
 		.name('eval')
-		.argument('<expression>')
-		.argument('[source]')
+		.command('eval <expression> [source]')
 		.addOption(new Option('-o, --output <format>', 'Force output').choices(['json', 'yaml']))
 		.option('-b, --beautiful', 'Beautiful output', false)
 		.option('-q, --query-file <path>', 'query file')
@@ -86,8 +85,7 @@ async function main () {
 		})
 	program
 		.name('validate')
-		.argument('<schema>')
-		.argument('[source]')
+		.command('validate <schema> [source]')
 		.addOption(new Option('-o, --output <format>', 'Force output').choices(['json', 'yaml']))
 		.option('-b, --beautiful', 'Beautiful output', false)
 		.action(async (schema:string, source:any, options:any) => {
