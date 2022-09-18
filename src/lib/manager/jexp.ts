@@ -1,5 +1,5 @@
 import { expressions as exp, Expressions } from 'js-expressions'
-import { jemv, Jemv } from 'jemv'
+import { jemv, Jemv, ValidationResult } from 'jemv'
 import { ExpressionConstraintBuilder } from './schema'
 import { JexpExtensionLib } from './expressions'
 
@@ -25,7 +25,7 @@ export class Jexp {
 		return this.exp.eval(expression, { '.': data })
 	}
 
-	public async validate (schema:string, data:any) : Promise<any> {
+	public async validate (schema:string, data:any) : Promise<ValidationResult> {
 		return this.jemv.validate(schema, data)
 	}
 }
