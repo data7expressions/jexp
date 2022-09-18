@@ -31,13 +31,13 @@ npm install jexp -g
 | eval      | returns the result of the expression on the source  |
 | validate  | validate the source from a schema                   |
 
-Eval:
+**Eval:**
 
 ```sh
 jexp eval <expression> <source> [options]
 ```
 
-Validate:
+**Validate:**
 
 ```sh
 jexp validate <schema> <source> [options]
@@ -737,6 +737,7 @@ curl -s https://raw.githubusercontent.com/FlavioLionelRita/jexp/main/data/orders
 - [Conversion](https://github.com/FlavioLionelRita/js-expressions/wiki/Conversion)
 - [Assignment](https://github.com/FlavioLionelRita/js-expressions/wiki/Assignment)
 - [Array](https://github.com/FlavioLionelRita/js-expressions/wiki/Array)
+- [Access](https://github.com/FlavioLionelRita/js-expressions/wiki/Access)
 - [Arrow](https://github.com/FlavioLionelRita/js-expressions/wiki/Arrow)
 - [Group](https://github.com/FlavioLionelRita/js-expressions/wiki/Group)
 - [Sets](https://github.com/FlavioLionelRita/js-expressions/wiki/Sets)

@@ -1,15 +1,16 @@
 import { expressions as exp, Expressions } from 'js-expressions'
 import { jemv, Jemv } from 'jemv'
-import { ExpressionConstraintValidator, ExpressionConstraintBuilder } from './schema'
+import { ExpressionConstraintBuilder } from './schema'
+import { JexpExtensionLib } from './expressions'
 
 export class Jexp {
 	private exp: Expressions
 	private jemv: Jemv
 	constructor () {
 		this.exp = exp
+		this.exp.config.addLibrary(new JexpExtensionLib())
 		this.jemv = jemv
-		this.jemv.addConstraintBuilder(new ExpressionConstraintBuilder())
-		this.jemv.addConstraintValidator(new ExpressionConstraintValidator(this.exp))
+		this.jemv.addConstraintBuilder(new ExpressionConstraintBuilder(this.exp))
 	}
 
 	private static _instance: Jexp

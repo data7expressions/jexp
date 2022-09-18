@@ -28,9 +28,10 @@
 	},
 	"dependencies": {
 		"commander": "^9.4.0",
-		"jemv": "0.0.14",
+		"jemv": "0.1.2",
 		"js-expressions": "1.1.9",
-		"js-yaml": "^4.1.0"
+		"js-yaml": "^4.1.0",
+		"crypto-js": "^4.1.1"
 	},
 	"devDependencies": {
 		"@types/jest": "^27.0.1",
