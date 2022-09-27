@@ -11,14 +11,14 @@ export class ExpressionConstraintBuilder implements IConstraintBuilder {
 		return (rule as ExpressionSchema).expression !== undefined
 	}
 
-	public async build (schema:Schema, rule: Schema): Promise<IConstraint> {
+	public build (schema:Schema, rule: Schema): IConstraint {
 		const _rule = rule as ExpressionSchema
 		if (_rule.expression === undefined) {
 			throw new Error('Expression not define')
 		}
 		const expression = _rule.expression
 		return new FunctionConstraint(
-			async (value:any, path:string) : Promise<EvalError[]> => {
+			(value:any, path:string) : EvalError[] => {
 				const result = this.expressions.eval(expression, value)
 				return result ? [] : [{ path: path, message: `does not meet the expression ${expression}` }]
 			}
