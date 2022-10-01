@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { jexp, SourceInfo } from './'
-import { Helper } from 'js-expressions'
+import { Helper } from './manager'
 import path from 'path'
 const { program, Option } = require('commander')
 const yaml = require('js-yaml')
@@ -27,18 +27,18 @@ const getSource = async (source:any) : Promise<SourceInfo> => {
 
 	const info:SourceInfo = { data: {} }
 	if ((source.startsWith('[') || source.startsWith('{'))) {
-		info.data = Helper.tryParse(source)
+		info.data = Helper.utils.tryParse(source)
 	} else {
 		info.extension = path.extname(source)
 		if (!['.json', '.yaml', 'yml'].includes(info.extension)) {
 			throw Error(`extension ${info.extension} not supported `)
 		}
-		const content = await Helper.readFile(source)
+		const content = await Helper.fs.read(source)
 		if (!content) {
 			throw Error(`can not read file ${source}`)
 		}
 		if (info.extension === 'json') {
-			info.data = Helper.tryParse(content)
+			info.data = Helper.utils.tryParse(content)
 		} else {
 			info.data = yaml.load(content)
 		}

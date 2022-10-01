@@ -1,11 +1,11 @@
 /* eslint-disable indent */
-import { Helper } from 'js-expressions'
+import { Helper } from './../lib'
 
 export async function show (list:any[]) {
 	const examples = []
 	for (const item of list) {
 		try {
-			const result = await Helper.exec(item.cmd)
+			const result = await Helper.utils.exec(item.cmd)
 			let expect:any
 			if (typeof result === 'string') {
 				expect = `'${result}'`

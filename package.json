@@ -30,6 +30,7 @@
 		"commander": "^9.4.0",
 		"jemv": "0.1.4",
 		"js-expressions": "1.1.12",
+		"h3lp": "0.2.0",
 		"js-yaml": "^4.1.0",
 		"crypto-js": "^4.1.1"
 	},
