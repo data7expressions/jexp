@@ -19,7 +19,8 @@ module.exports = function (grunt) {
 		copy: {
 			lib: { expand: true, cwd: 'build/lib', src: '**', dest: 'dist/' },
 			readme: { expand: true, src: './README.md', dest: 'dist/' },
-			license: { expand: true, src: './LICENSE', dest: 'dist/' }
+			license: { expand: true, src: './LICENSE', dest: 'dist/' },
+			jest: { expand: true, src: './jest-unit-config.json', dest: 'dist/' }
 		}
 	})
 
