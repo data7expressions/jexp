@@ -1,9 +1,9 @@
 import { Schema, IConstraint, IConstraintBuilder, FunctionConstraint, EvalError } from 'jemv'
-import { Expressions } from 'js-expressions'
+import { IExpressions } from '3xpr'
 import { ExpressionSchema } from './../model'
 export class ExpressionConstraintBuilder implements IConstraintBuilder {
-	private expressions: Expressions
-	constructor (expressions: Expressions) {
+	private expressions: IExpressions
+	constructor (expressions: IExpressions) {
 		this.expressions = expressions
 	}
 
@@ -20,7 +20,7 @@ export class ExpressionConstraintBuilder implements IConstraintBuilder {
 		return new FunctionConstraint(
 			(value:any, path:string) : EvalError[] => {
 				const result = this.expressions.eval(expression, value)
-				return result ? [] : [{ path: path, message: `does not meet the expression ${expression}` }]
+				return result ? [] : [{ path, message: `does not meet the expression ${expression}` }]
 			}
 		)
 	}
