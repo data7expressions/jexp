@@ -31,13 +31,13 @@ npm install jexp -g
 | eval      | returns the result of the expression on the source  |
 | validate  | validate the source from a schema                   |
 
-Eval:
+**Eval:**
 
 ```sh
 jexp eval <expression> <source> [options]
 ```
 
-Validate:
+**Validate:**
 
 ```sh
 jexp validate <schema> <source> [options]
@@ -45,7 +45,7 @@ jexp validate <schema> <source> [options]
 
 ### Expression
 
-> The expressions correspond to the package [js-expressions](https://www.npmjs.com/package/js-expressions)
+> The expressions correspond to the package [3xpr](https://www.npmjs.com/package/3xpr)
 > expression that is applied to the data source  
 >
 > The root of the data is accessed from **dot**
@@ -720,25 +720,26 @@ curl -s https://raw.githubusercontent.com/FlavioLionelRita/jexp/main/data/orders
 
 ## js-expression
 
-> [Js-expression](https://www.npmjs.com/package/js-expressions) is an extensible expression evaluator and parser.
+> [Js-expression](https://www.npmjs.com/package/3xpr) is an extensible expression evaluator and parser.
 >
 > Besides the operators, functions, variables, objects and arrays that are supported.
 
 ### Documentation
 
-- [Arithmetic](https://github.com/FlavioLionelRita/js-expressions/wiki/Arithmetic)
-- [Comparison](https://github.com/FlavioLionelRita/js-expressions/wiki/Comparison)
-- [Logical](https://github.com/FlavioLionelRita/js-expressions/wiki/Logical)
-- [Bitwise](https://github.com/FlavioLionelRita/js-expressions/wiki/Bitwise)
-- [Numeric](https://github.com/FlavioLionelRita/js-expressions/wiki/Numeric)
-- [String](https://github.com/FlavioLionelRita/js-expressions/wiki/String)
-- [Datetime](https://github.com/FlavioLionelRita/js-expressions/wiki/Datetime)
-- [Nullable](https://github.com/FlavioLionelRita/js-expressions/wiki/Nullable)
-- [Conversion](https://github.com/FlavioLionelRita/js-expressions/wiki/Conversion)
-- [Assignment](https://github.com/FlavioLionelRita/js-expressions/wiki/Assignment)
-- [Array](https://github.com/FlavioLionelRita/js-expressions/wiki/Array)
-- [Arrow](https://github.com/FlavioLionelRita/js-expressions/wiki/Arrow)
-- [Group](https://github.com/FlavioLionelRita/js-expressions/wiki/Group)
-- [Sets](https://github.com/FlavioLionelRita/js-expressions/wiki/Sets)
-- [Control flows](https://github.com/FlavioLionelRita/js-expressions/wiki/Flows)
-- [Extend](https://github.com/FlavioLionelRita/js-expressions/wiki/Extend)
+- [Arithmetic](https://github.com/FlavioLionelRita/3xpr/wiki/Arithmetic)
+- [Comparison](https://github.com/FlavioLionelRita/3xpr/wiki/Comparison)
+- [Logical](https://github.com/FlavioLionelRita/3xpr/wiki/Logical)
+- [Bitwise](https://github.com/FlavioLionelRita/3xpr/wiki/Bitwise)
+- [Numeric](https://github.com/FlavioLionelRita/3xpr/wiki/Numeric)
+- [String](https://github.com/FlavioLionelRita/3xpr/wiki/String)
+- [Datetime](https://github.com/FlavioLionelRita/3xpr/wiki/Datetime)
+- [Nullable](https://github.com/FlavioLionelRita/3xpr/wiki/Nullable)
+- [Conversion](https://github.com/FlavioLionelRita/3xpr/wiki/Conversion)
+- [Assignment](https://github.com/FlavioLionelRita/3xpr/wiki/Assignment)
+- [Array](https://github.com/FlavioLionelRita/3xpr/wiki/Array)
+- [Access](https://github.com/FlavioLionelRita/3xpr/wiki/Access)
+- [Arrow](https://github.com/FlavioLionelRita/3xpr/wiki/Arrow)
+- [Group](https://github.com/FlavioLionelRita/3xpr/wiki/Group)
+- [Sets](https://github.com/FlavioLionelRita/3xpr/wiki/Sets)
+- [Control flows](https://github.com/FlavioLionelRita/3xpr/wiki/Flows)
+- [Extend](https://github.com/FlavioLionelRita/3xpr/wiki/Extend)

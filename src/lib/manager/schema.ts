@@ -1,37 +1,27 @@
-import { ConstraintValidator, Constraint, Schema, ConstraintBuilder } from 'jemv'
-import { Expressions } from 'js-expressions'
-import { ExpressionConstraint, ExpressionSchema } from './../model'
-
-export class ExpressionConstraintBuilder implements ConstraintBuilder {
-	public build (property: Schema): Constraint[] {
-		const constraints: ExpressionConstraint[] = []
-		const _property = property as ExpressionSchema
-		if (_property && _property.expression) {
-			constraints.push({
-				message: `Does not meet the expression ${_property.expression}`,
-				expression: _property.expression
-			})
-		}
-		return constraints
-	}
-}
-
-export class ExpressionConstraintValidator implements ConstraintValidator {
-	private expressions: Expressions
-	constructor (expressions: Expressions) {
+import { Schema, IConstraint, IConstraintBuilder, FunctionConstraint, EvalError } from 'jemv'
+import { IExpressions } from '3xpr'
+import { ExpressionSchema } from './../model'
+export class ExpressionConstraintBuilder implements IConstraintBuilder {
+	private expressions: IExpressions
+	constructor (expressions: IExpressions) {
 		this.expressions = expressions
 	}
 
-	public apply (constraint: Constraint): boolean {
-		return 'expression' in (constraint as ExpressionConstraint)
+	public apply (rule: Schema):boolean {
+		return (rule as ExpressionSchema).expression !== undefined
 	}
 
-	public validate (constraint: Constraint, data: any): boolean {
-		const expressionConstraint = constraint as ExpressionConstraint
-		if (expressionConstraint !== undefined) {
-			return this.expressions.eval(expressionConstraint.expression, data)
-		} else {
-			throw new Error('Undefined ExpressionConstraint')
+	public build (schema:Schema, rule: Schema): IConstraint {
+		const _rule = rule as ExpressionSchema
+		if (_rule.expression === undefined) {
+			throw new Error('Expression not define')
 		}
+		const expression = _rule.expression
+		return new FunctionConstraint(
+			(value:any, path:string) : EvalError[] => {
+				const result = this.expressions.eval(expression, value)
+				return result ? [] : [{ path, message: `does not meet the expression ${expression}` }]
+			}
+		)
 	}
 }

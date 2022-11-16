@@ -1,9 +1,5 @@
-import { Constraint, Schema } from 'jemv'
+import { Schema } from 'jemv'
 
 export interface ExpressionSchema extends Schema {
 	expression?: string
-}
-
-export interface ExpressionConstraint extends Constraint {
-	expression: string
 }

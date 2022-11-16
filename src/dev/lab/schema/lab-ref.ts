@@ -1,6 +1,5 @@
 /* eslint-disable no-unexpected-multiline */
-import { jexp } from '../../../lib'
-import { Helper } from 'js-expressions'
+import { jexp, Helper } from '../../../lib'
 
 (async () => {
 	try {
@@ -24,8 +23,8 @@ import { Helper } from 'js-expressions'
 		}
 		const schemaUri = 'https://raw.githubusercontent.com/FlavioLionelRita/test-data/main/json-schema/arrays.schema.json'
 		const validateInputResult = await jexp.validate(schemaUri, data)
-		if (!validateInputResult.isValid) {
-			await Helper.writeFile('./src/dev/lab/schema/aws/validate-input-errors.json', JSON.stringify(validateInputResult.errors, null, 2))
+		if (!validateInputResult.valid) {
+			await Helper.fs.write('./src/dev/lab/schema/aws/validate-input-errors.json', JSON.stringify(validateInputResult.errors, null, 2))
 		}
 		console.log(`error: ${validateInputResult.errors.length}`)
 	} catch (error:any) {
