@@ -1,5 +1,4 @@
-import { JexpHelper } from './helper'
+import { h3lp } from 'h3lp'
 export * from './schema'
-export * from './helper'
 export * from './jexp'
-export const Helper = new JexpHelper()
+export const Helper = h3lp

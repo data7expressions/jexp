@@ -5,7 +5,7 @@ export async function show (list:any[]) {
 	const examples = []
 	for (const item of list) {
 		try {
-			const result = await Helper.utils.exec(item.cmd)
+			const result = await Helper.utils.exec(item.cmd, process.cwd())
 			let expect:any
 			if (typeof result === 'string') {
 				expect = `'${result}'`

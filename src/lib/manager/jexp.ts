@@ -1,11 +1,11 @@
 /* eslint-disable no-use-before-define */
-import { expressions as exp, IExpressions } from '3xpr'
+import { expressions as exp, Expressions } from '3xpr'
 import { jemv, Jemv, ValidationResult } from 'jemv'
 import { ExpressionConstraintBuilder } from './schema'
 const CryptoJS = require('crypto-js')
 
 export class Jexp {
-	private exp: IExpressions
+	private exp: Expressions
 	private jemv: Jemv
 	constructor () {
 		this.exp = exp
