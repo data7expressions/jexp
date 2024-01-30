@@ -51,7 +51,7 @@ import { show } from '../../util'
     { cmd: 'jexp eval \'.[0].details.article.intersection(.[1].details.article)\' ./data/orders.json', desc: 'The articles in common between order 20001 and 20002' },
     { cmd: 'jexp eval \'.[0].details.article.difference(.[1].details.article)\' ./data/orders.json', desc: 'Articles that are in order 20001 and are not in order 20002' },
     { cmd: 'jexp eval \'.[0].details.article.symmetricDifference(.[1].details.article)\' ./data/orders.json', desc: 'Articles of orders 20001 and 20003 that are not shared' },
-    { cmd: 'curl -s https://raw.githubusercontent.com/FlavioLionelRita/jexp/main/data/orders.json | jexp \'.details.sum(p=> p.unitPrice * p.qty )\'', desc: 'Get the sum "unitPrice * p.qty" of the details of item 1 of the list using pipeline' }
+    { cmd: 'curl -s https://raw.githubusercontent.com/data7expressions/jexp/main/data/orders.json | jexp \'.details.sum(p=> p.unitPrice * p.qty )\'', desc: 'Get the sum "unitPrice * p.qty" of the details of item 1 of the list using pipeline' }
   ]
   await show(list)
 })()

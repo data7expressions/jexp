@@ -3,7 +3,7 @@ import { jexp, Helper } from '../../../lib'
 
 (async () => {
 	try {
-		// const dataUri = 'https://raw.githubusercontent.com/FlavioLionelRita/test-data/main/json-schema/arrays.json'
+		// const dataUri = 'https://raw.githubusercontent.com/data7expressions/test-data/main/json-schema/arrays.json'
 		process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 		// const content = await Helper.get(dataUri)
 		// const data = Helper.tryParse(content)
@@ -21,7 +21,7 @@ import { jexp, Helper } from '../../../lib'
 				}
 			]
 		}
-		const schemaUri = 'https://raw.githubusercontent.com/FlavioLionelRita/test-data/main/json-schema/arrays.schema.json'
+		const schemaUri = 'https://raw.githubusercontent.com/data7expressions/test-data/main/json-schema/arrays.schema.json'
 		const validateInputResult = await jexp.validate(schemaUri, data)
 		if (!validateInputResult.valid) {
 			await Helper.fs.write('./src/dev/lab/schema/aws/validate-input-errors.json', JSON.stringify(validateInputResult.errors, null, 2))

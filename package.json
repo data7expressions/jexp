@@ -9,13 +9,13 @@
 		"node": ">=10"
 	},
 	"main": "src/index.js",
-	"homepage": "https://github.com/FlavioLionelRita/jexp#readme",
+	"homepage": "https://github.com/data7expressions/jexp#readme",
 	"bugs": {
-		"url": "https://github.com/FlavioLionelRita/jexp/issues"
+		"url": "https://github.com/data7expressions/jexp/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/FlavioLionelRita/jexp.git"
+		"url": "https://github.com/data7expressions/jexp.git"
 	},
 	"scripts": {
 		"lint": "npx eslint src",
