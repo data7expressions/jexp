@@ -1,9 +1,9 @@
 import { Schema, IConstraint, IConstraintBuilder, FunctionConstraint, EvalError } from 'jemv'
-import { IExpressions } from '3xpr'
+import { Expressions } from '3xpr'
 import { ExpressionSchema } from './../model'
 export class ExpressionConstraintBuilder implements IConstraintBuilder {
-	private expressions: IExpressions
-	constructor (expressions: IExpressions) {
+	private expressions: Expressions
+	constructor (expressions: Expressions) {
 		this.expressions = expressions
 	}
 

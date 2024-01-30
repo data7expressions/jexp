@@ -87,7 +87,7 @@ jexp eval 'concatenate(capitalize(.fruit.name)," ",.fruit.color)' '{"fruit":{"na
 Get data source from pipeline command
 
 ```sh
-curl -s https://raw.githubusercontent.com/FlavioLionelRita/jexp/main/data/orders.json | jexp eval '.number'
+curl -s https://raw.githubusercontent.com/data7expressions/jexp/main/data/orders.json | jexp eval '.number'
 ```
 
 ### Options
@@ -709,7 +709,7 @@ jexp eval '.[0].details.article.symmetricDifference(.[1].details.article)' ./dat
 **Get the sum "unitPrice * p.qty" of the details of item 1 of the list using pipeline**:
 
 ```sh
-curl -s https://raw.githubusercontent.com/FlavioLionelRita/jexp/main/data/orders.json | jexp eval '.details.sum(p=> p.unitPrice * p.qty )'
+curl -s https://raw.githubusercontent.com/data7expressions/jexp/main/data/orders.json | jexp eval '.details.sum(p=> p.unitPrice * p.qty )'
 ```
 
 *Result*:
@@ -726,20 +726,20 @@ curl -s https://raw.githubusercontent.com/FlavioLionelRita/jexp/main/data/orders
 
 ### Documentation
 
-- [Arithmetic](https://github.com/FlavioLionelRita/3xpr/wiki/Arithmetic)
-- [Comparison](https://github.com/FlavioLionelRita/3xpr/wiki/Comparison)
-- [Logical](https://github.com/FlavioLionelRita/3xpr/wiki/Logical)
-- [Bitwise](https://github.com/FlavioLionelRita/3xpr/wiki/Bitwise)
-- [Numeric](https://github.com/FlavioLionelRita/3xpr/wiki/Numeric)
-- [String](https://github.com/FlavioLionelRita/3xpr/wiki/String)
-- [Datetime](https://github.com/FlavioLionelRita/3xpr/wiki/Datetime)
-- [Nullable](https://github.com/FlavioLionelRita/3xpr/wiki/Nullable)
-- [Conversion](https://github.com/FlavioLionelRita/3xpr/wiki/Conversion)
-- [Assignment](https://github.com/FlavioLionelRita/3xpr/wiki/Assignment)
-- [Array](https://github.com/FlavioLionelRita/3xpr/wiki/Array)
-- [Access](https://github.com/FlavioLionelRita/3xpr/wiki/Access)
-- [Arrow](https://github.com/FlavioLionelRita/3xpr/wiki/Arrow)
-- [Group](https://github.com/FlavioLionelRita/3xpr/wiki/Group)
-- [Sets](https://github.com/FlavioLionelRita/3xpr/wiki/Sets)
-- [Control flows](https://github.com/FlavioLionelRita/3xpr/wiki/Flows)
-- [Extend](https://github.com/FlavioLionelRita/3xpr/wiki/Extend)
+- [Arithmetic](https://github.com/data7expressions/3xpr/wiki/Arithmetic)
+- [Comparison](https://github.com/data7expressions/3xpr/wiki/Comparison)
+- [Logical](https://github.com/data7expressions/3xpr/wiki/Logical)
+- [Bitwise](https://github.com/data7expressions/3xpr/wiki/Bitwise)
+- [Numeric](https://github.com/data7expressions/3xpr/wiki/Numeric)
+- [String](https://github.com/data7expressions/3xpr/wiki/String)
+- [Datetime](https://github.com/data7expressions/3xpr/wiki/Datetime)
+- [Nullable](https://github.com/data7expressions/3xpr/wiki/Nullable)
+- [Conversion](https://github.com/data7expressions/3xpr/wiki/Conversion)
+- [Assignment](https://github.com/data7expressions/3xpr/wiki/Assignment)
+- [Array](https://github.com/data7expressions/3xpr/wiki/Array)
+- [Access](https://github.com/data7expressions/3xpr/wiki/Access)
+- [Arrow](https://github.com/data7expressions/3xpr/wiki/Arrow)
+- [Group](https://github.com/data7expressions/3xpr/wiki/Group)
+- [Sets](https://github.com/data7expressions/3xpr/wiki/Sets)
+- [Control flows](https://github.com/data7expressions/3xpr/wiki/Flows)
+- [Extend](https://github.com/data7expressions/3xpr/wiki/Extend)
