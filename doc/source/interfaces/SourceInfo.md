@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[src/lib/model/jexp.ts:2](https://github.com/data7expressions/jexp/blob/e6e31dd/src/lib/model/jexp.ts#L2)
+[src/lib/model/jexp.ts:2](https://github.com/data7expressions/jexp/blob/634e26e/src/lib/model/jexp.ts#L2)
 
 ___
 
@@ -27,4 +27,4 @@ ___
 
 #### Defined in
 
-[src/lib/model/jexp.ts:3](https://github.com/data7expressions/jexp/blob/e6e31dd/src/lib/model/jexp.ts#L3)
+[src/lib/model/jexp.ts:3](https://github.com/data7expressions/jexp/blob/634e26e/src/lib/model/jexp.ts#L3)

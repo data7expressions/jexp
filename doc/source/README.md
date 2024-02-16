@@ -28,7 +28,7 @@ jexp
 
 #### Defined in
 
-[src/lib/manager/index.ts:4](https://github.com/data7expressions/jexp/blob/e6e31dd/src/lib/manager/index.ts#L4)
+[src/lib/manager/index.ts:4](https://github.com/data7expressions/jexp/blob/634e26e/src/lib/manager/index.ts#L4)
 
 ___
 
@@ -38,4 +38,4 @@ ___
 
 #### Defined in
 
-[src/lib/index.ts:3](https://github.com/data7expressions/jexp/blob/e6e31dd/src/lib/index.ts#L3)
+[src/lib/index.ts:3](https://github.com/data7expressions/jexp/blob/634e26e/src/lib/index.ts#L3)
