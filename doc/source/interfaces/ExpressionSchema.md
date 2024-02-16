@@ -381,7 +381,7 @@ ___
 
 #### Defined in
 
-[src/lib/model/schema.ts:4](https://github.com/data7expressions/jexp/blob/e6e31dd/src/lib/model/schema.ts#L4)
+[src/lib/model/schema.ts:4](https://github.com/data7expressions/jexp/blob/634e26e/src/lib/model/schema.ts#L4)
 
 ___
 
