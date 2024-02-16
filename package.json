@@ -27,7 +27,7 @@
 		"doc": "grunt doc"
 	},
 	"dependencies": {
-		"commander": "^11.1.0",
+		"commander": "^12.0.0",
 		"jemv": "0.2.1",
 		"3xpr": "1.15.6",
 		"h3lp": "1.5.2",
