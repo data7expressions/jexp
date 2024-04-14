@@ -1,6 +1,6 @@
 {
 	"name": "jexp",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "Parser and evaluator of expressions by line of commands. The expressions correspond to the package 3xpr",
 	"author": "Flavio Lionel Rita <flaviolrita@hotmail.com>",
 	"license": "Apache-2.0 License",
@@ -29,8 +29,8 @@
 	"dependencies": {
 		"commander": "^12.0.0",
 		"jemv": "^0.2.2",
-		"3xpr": "^1.15.9",
-		"h3lp": "^1.5.8",
+		"3xpr": "^1.15.11",
+		"h3lp": "^1.8.4",
 		"js-yaml": "^4.1.0",
 		"crypto-js": "^4.2.0"
 	},
@@ -38,10 +38,10 @@
 		"@types/yargs": "^17.0.8",
 		"@babel/eslint-parser": "^7.23.10",
 		"@types/jest": "^29.5.12",
-		"@types/node": "^20.11.17",
-		"@typescript-eslint/eslint-plugin": "^6.21.0",
-		"@typescript-eslint/parser": "^6.12.0",
-		"eslint": "^8.54.0",
+		"@types/node": "^20.12.5",
+		"@typescript-eslint/eslint-plugin": "^7.0.0",
+		"@typescript-eslint/parser": "^7.5.0",
+		"eslint": "^8.57.0",
 		"eslint-config-standard": "^17.1.0",
 		"eslint-plugin-import": "^2.27.5",
 		"eslint-plugin-node": "^11.1.0",
@@ -56,7 +56,7 @@
 		"load-grunt-tasks": "^5.1.0",
 		"ts-jest": "^29.1.0",
 		"ts-node": "^10.9.1",
-		"typedoc": "^0.25.3",
+		"typedoc": "^0.25.13",
 		"typedoc-plugin-markdown": "3.17.1",
 		"typescript": "5.3.3"
 	},
