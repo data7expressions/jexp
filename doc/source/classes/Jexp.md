@@ -29,7 +29,7 @@
 
 #### Defined in
 
-[src/lib/manager/jexp.ts:10](https://github.com/data7expressions/jexp/blob/9a0ddccfae49b01240ac2c1bb2864417b46df207/src/lib/manager/jexp.ts#L10)
+[src/lib/manager/jexp.ts:10](https://github.com/data7expressions/jexp/blob/67df7a93ea79a1d1c1bbc56b3ab72cbe7b037d91/src/lib/manager/jexp.ts#L10)
 
 ## Accessors
 
@@ -43,7 +43,7 @@
 
 #### Defined in
 
-[src/lib/manager/jexp.ts:24](https://github.com/data7expressions/jexp/blob/9a0ddccfae49b01240ac2c1bb2864417b46df207/src/lib/manager/jexp.ts#L24)
+[src/lib/manager/jexp.ts:24](https://github.com/data7expressions/jexp/blob/67df7a93ea79a1d1c1bbc56b3ab72cbe7b037d91/src/lib/manager/jexp.ts#L24)
 
 ## Methods
 
@@ -64,7 +64,7 @@
 
 #### Defined in
 
-[src/lib/manager/jexp.ts:31](https://github.com/data7expressions/jexp/blob/9a0ddccfae49b01240ac2c1bb2864417b46df207/src/lib/manager/jexp.ts#L31)
+[src/lib/manager/jexp.ts:31](https://github.com/data7expressions/jexp/blob/67df7a93ea79a1d1c1bbc56b3ab72cbe7b037d91/src/lib/manager/jexp.ts#L31)
 
 ___
 
@@ -85,4 +85,4 @@ ___
 
 #### Defined in
 
-[src/lib/manager/jexp.ts:35](https://github.com/data7expressions/jexp/blob/9a0ddccfae49b01240ac2c1bb2864417b46df207/src/lib/manager/jexp.ts#L35)
+[src/lib/manager/jexp.ts:35](https://github.com/data7expressions/jexp/blob/67df7a93ea79a1d1c1bbc56b3ab72cbe7b037d91/src/lib/manager/jexp.ts#L35)
